@@ -1,0 +1,55 @@
+identity:
+  name: "deleteDocument"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "deleteDocument"
+    zh_Hans: "删除文档"
+description:
+  human:
+    en_US: "Delete document from Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+    zh_Hans: "从阿里云AnalyticDB for PostgreSQL知识库中删除文档"
+  llm: "A tool to delete document from Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: true
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name"
+      zh_Hans: "文档库名称"
+    llm_description: "The document collection name"
+    form: llm
+  - name: file_name
+    type: string
+    required: true
+    label:
+      en_US: FileName
+      zh_Hans: FileName
+    human_description:
+      en_US: "The name of the file to delete"
+      zh_Hans: "要删除的文件名称"
+    llm_description: "The name of the file to delete"
+    form: llm
+output_schema:
+  type: object
+  properties:
+    Message:
+      type: string
+      human_description:
+        en_US: "The message indicating the result of the operation"
+        zh_Hans: "调用结果"
+    RequestId:
+      type: string
+      human_description:
+        en_US: "The request ID for tracking the operation"
+        zh_Hans: "请求ID"
+    Status:
+      type: string
+      human_description:
+        en_US: "The status of the operation (e.g., 'success')"
+extra:
+  python:
+    source: tools/delete_document/delete_document.py
+

@@ -1,0 +1,48 @@
+identity:
+  name: "listKnowledgeBases"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "listKnowledgeBases"
+    zh_Hans: "知识库列表"
+description:
+  human:
+    en_US: "List all knowledge bases (document collections) in Alibaba Cloud AnalyticDB for PostgreSQL"
+    zh_Hans: "列出阿里云AnalyticDB for PostgreSQL中的所有知识库（文档库）"
+  llm: "A tool to list all knowledge bases (document collections) in Alibaba Cloud AnalyticDB for PostgreSQL"
+parameters: []
+output_schema:
+  type: object
+  properties:
+    RequestId:
+      type: string
+    Status:
+      type: string
+    Message:
+      type: string
+    Count:
+      type: integer
+      format: int32
+    Items:
+      type: array
+      items:
+        type: object
+        properties:
+          CollectionName:
+            type: string
+          EmbeddingModel:
+            type: string
+          Dimension:
+            type: integer
+            format: int32
+          FullTextRetrievalFields:
+            type: string
+          Metadata:
+            type: string
+          Parser:
+            type: string
+          Metrics:
+            type: string
+extra:
+  python:
+    source: tools/list_knowledge_bases/list_knowledge_bases.py
+

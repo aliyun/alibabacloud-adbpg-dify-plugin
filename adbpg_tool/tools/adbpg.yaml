@@ -1,0 +1,34 @@
+identity:
+  name: "chatWithKnowledge"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "chatWithKnowledge"
+    zh_Hans: "chatWithKnowledge"
+    pt_BR: "chatWithKnowledge"
+    ja_JP: "chatWithKnowledge"
+description:
+  human:
+    en_US: "chatWithKnowledge service"
+    zh_Hans: "chatWithKnowledge service"
+    pt_BR: "chatWithKnowledge service"
+    ja_JP: "chatWithKnowledge service"
+  llm: "chatWithKnowledge service"
+parameters:
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: Query string
+      zh_Hans: 查询语句
+      pt_BR: Query string
+      ja_JP: クエリ文字列
+    human_description:
+      en_US: "chatWithKnowledge service"
+      zh_Hans: "chatWithKnowledge service"
+      pt_BR: "chatWithKnowledge service"
+      ja_JP: "chatWithKnowledge service"
+    llm_description: "chatWithKnowledge service"
+    form: llm
+extra:
+  python:
+    source: tools/chatWithKnowledge.py

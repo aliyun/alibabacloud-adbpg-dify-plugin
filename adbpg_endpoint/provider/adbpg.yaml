@@ -1,0 +1,79 @@
+settings:
+  - name: ANALYTICDB_KEY_ID
+    type: text-input
+    required: true
+    label:
+      en_US: Access Key ID
+      zh_Hans: Access Key ID
+    placeholder:
+      en_US: Please input your Alibaba Cloud Access Key ID
+      zh_Hans: 请输入你的阿里云 Access Key ID
+    help:
+      en_US: Access Key ID for Alibaba Cloud authentication
+      zh_Hans: 阿里云访问密钥ID，用于身份认证
+  - name: ANALYTICDB_KEY_SECRET
+    type: secret-input
+    required: true
+    label:
+      en_US: Access Key Secret
+      zh_Hans: Access Key Secret
+    placeholder:
+      en_US: Please input your Alibaba Cloud Access Key Secret
+      zh_Hans: 请输入你的阿里云 Access Key Secret
+    help:
+      en_US: Access Key Secret for Alibaba Cloud authentication
+      zh_Hans: 阿里云访问密钥秘密，用于身份认证
+  - name: ANALYTICDB_REGION_ID
+    type: text-input
+    required: true
+    label:
+      en_US: Region ID
+      zh_Hans: 区域 ID
+    placeholder:
+      en_US: Please input Region ID (e.g. cn-hangzhou)
+      zh_Hans: 请输入区域 ID，例如 cn-hangzhou
+    help:
+      en_US: Region ID for Alibaba Cloud authentication
+      zh_Hans: 阿里云区域 ID，用于身份认证
+  - name: ANALYTICDB_DBINSTANCE_ID
+    type: text-input
+    required: true
+    label:
+      en_US: Database Instance ID
+      zh_Hans: 数据库实例 ID
+    placeholder:
+      en_US: Please input Database Instance ID (e.g. gp-xxxxxx)
+      zh_Hans: 请输入数据库实例 ID，形如 gp-xxxxxx
+    help:
+      en_US: Database Instance ID for Alibaba Cloud Service
+      zh_Hans: 阿里云数据库实例 ID
+  - name: ANALYTICDB_NAMESPACE
+    type: text-input
+    required: true
+    label:
+      en_US: Namespace
+      zh_Hans: 命名空间
+    placeholder:
+      en_US: Namespace name
+      zh_Hans: 命名空间名称
+  - name: ANALYTICDB_NAMESPACE_PASSWORD
+    type: secret-input
+    required: true
+    label:
+      en_US: Namespace Password
+      zh_Hans: 命名空间密码
+    placeholder:
+      en_US: Namespace password
+      zh_Hans: 命名空间密码
+  - name: ANALYTICDB_ENDPOINT
+    type: text-input
+    required: false
+    default: "gpdb.aliyuncs.com"
+    label:
+      en_US: Endpoint
+      zh_Hans: 端点
+    placeholder:
+      en_US: Please input your Alibaba Cloud Endpoint
+      zh_Hans: 请输入阿里云服务的端点，例如gpdb-cn-hangzhou.aliyuncs.com
+endpoints:
+  - endpoints/adbpg.yaml

@@ -1,0 +1,176 @@
+identity:
+  name: "chatWithKnowledgeBaseStream"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "chatWithKnowledgeBase"
+    zh_Hans: "知识库问答"
+description:
+  human:
+    en_US: "Chat with knowledge base using Alibaba Cloud AnalyticDB for PostgreSQL"
+    zh_Hans: "使用阿里云AnalyticDB for PostgreSQL进行知识库问答"
+  llm: "A tool to chat with knowledge base using Alibaba Cloud AnalyticDB for PostgreSQL"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: false
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name"
+      zh_Hans: "文档库名称"
+    llm_description: "The document collection name"
+    form: llm
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: Query
+      zh_Hans: Query
+    human_description:
+      en_US: "The user query message"
+      zh_Hans: "用户查询消息"
+    llm_description: "The user query message"
+    form: llm
+  - name: llm_model
+    type: string
+    required: true
+    label:
+      en_US: LlmModel
+      zh_Hans: LlmModel
+    human_description:
+      en_US: "The LLM model to use for chat"
+      zh_Hans: "用于对话的LLM模型"
+    llm_description: "The LLM model to use for chat"
+    form: llm
+  - name: top_k
+    type: number
+    required: false
+    label:
+      en_US: TopK
+      zh_Hans: TopK
+    human_description:
+      en_US: "Number of top results to retrieve from knowledge base"
+      zh_Hans: "从知识库检索的结果数量"
+    llm_description: "Number of top results to retrieve from knowledge base"
+    form: llm
+  - name: use_full_text_retrieval
+    type: boolean
+    required: false
+    label:
+      en_US: UseFullTextRetrieval
+      zh_Hans: UseFullTextRetrieval
+    human_description:
+      en_US: "Whether to use full text retrieval"
+      zh_Hans: "是否使用全文检索"
+    llm_description: "Whether to use full text retrieval"
+    form: llm
+  - name: rerank_factor
+    type: number
+    required: false
+    label:
+      en_US: RerankFactor
+      zh_Hans: RerankFactor
+    human_description:
+      en_US: "Rerank factor for result reordering"
+      zh_Hans: "结果重排序的重排因子"
+    llm_description: "Rerank factor for result reordering"
+    form: llm
+  - name: graph_enhance
+    type: boolean
+    required: false
+    label:
+      en_US: GraphEnhance
+      zh_Hans: GraphEnhance
+    human_description:
+      en_US: "Whether to enable knowledge graph enhancement"
+      zh_Hans: "是否启用知识图谱增强"
+    llm_description: "Whether to enable knowledge graph enhancement"
+    form: llm
+  - name: prompt
+    type: string
+    required: false
+    label:
+      en_US: Prompt
+      zh_Hans: Prompt
+    human_description:
+      en_US: "Prompt parameters for the chat model"
+      zh_Hans: "对话模型的提示参数"
+    llm_description: "Prompt parameters for the chat model"
+    form: form
+  - name: system
+    type: string
+    required: false
+    label:
+      en_US: System
+      zh_Hans: System
+    human_description:
+      en_US: "System message to set the behavior of the assistant"
+      zh_Hans: "设置助手行为的系统消息"
+    llm_description: "System message to set the behavior of the assistant"
+    form: form
+  - name: max_tokens
+    type: number
+    required: false
+    label:
+      en_US: MaxTokens
+      zh_Hans: MaxTokens
+    human_description:
+      en_US: "Maximum number of tokens to generate"
+      zh_Hans: "生成的最大token数量"
+    llm_description: "Maximum number of tokens to generate"
+    form: form
+  - name: presence_penalty
+    type: number
+    required: false
+    label:
+      en_US: PresencePenalty
+      zh_Hans: PresencePenalty
+    human_description:
+      en_US: "Presence penalty parameter for the model"
+      zh_Hans: "模型的存在惩罚参数"
+    llm_description: "Presence penalty parameter for the model"
+    form: form
+  - name: seed
+    type: number
+    required: false
+    label:
+      en_US: Seed
+      zh_Hans: Seed
+    human_description:
+      en_US: "Random seed for reproducibility"
+      zh_Hans: "用于可重现性的随机种子"
+    llm_description: "Random seed for reproducibility"
+    form: form
+  - name: temperature
+    type: number
+    required: false
+    label:
+      en_US: Temperature
+      zh_Hans: Temperature
+    human_description:
+      en_US: "Temperature parameter for the model"
+      zh_Hans: "模型的温度参数"
+    llm_description: "Temperature parameter for the model"
+    form: form
+  - name: top_p
+    type: number
+    required: false
+    label:
+      en_US: TopP
+      zh_Hans: TopP
+    human_description:
+      en_US: "Top-p parameter for nucleus sampling"
+      zh_Hans: "核采样的top-p参数"
+    llm_description: "Top-p parameter for nucleus sampling"
+    form: form
+output_schema:
+  type: "object"
+  properties:
+    llm_answer:
+      type: "string"
+      stream: true
+extra:
+  python:
+    source: tools/chat_with_knowledge_base_stream/chat_with_knowledge_base_stream.py
+

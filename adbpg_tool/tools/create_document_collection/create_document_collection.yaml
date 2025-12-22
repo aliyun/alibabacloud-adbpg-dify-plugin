@@ -1,0 +1,318 @@
+identity:
+  name: "createDocumentCollection"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "createKnowledgeBase"
+    zh_Hans: "创建知识库"
+description:
+  human:
+    en_US: "Create your Alibaba Cloud AnalyticDB for PostgreSQL knowledge base tool"
+    zh_Hans: "创建你的阿里云AnalyticDB for PostgreSQL知识库工具"
+  llm: "A tool to create your Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: true
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name to create. Must comply with PostgreSQL object name restrictions."
+      zh_Hans: "要创建的文档库名称，需符合 PostgreSQL 对象名限制"
+    llm_description: "The document collection name to create. Must comply with PostgreSQL object name restrictions."
+    form: llm
+  - name: enable_graph
+    type: boolean
+    required: true
+    default: false
+    label:
+      en_US: EnableGraph
+      zh_Hans: EnableGraph
+    human_description:
+      en_US: "Whether to enable knowledge graph construction. Default: false."
+      zh_Hans: "是否开启构建知识图谱，默认值：false"
+    llm_description: "Whether to enable knowledge graph construction. Default: false."
+    form: llm
+  - name: llmmodel
+    type: select
+    required: false
+    label:
+      en_US: LLMModel
+      zh_Hans: LLMModel
+    human_description:
+      en_US: "LLM model for knowledge graph. Only effective when knowledge graph is enabled."
+      zh_Hans: "知识图谱使用的LLM模型。仅当开启构建知识图谱时生效"
+    llm_description: "LLM model for knowledge graph. Only effective when knowledge graph is enabled."
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "None"
+          zh_Hans: "无"
+      - value: "knowledge-extract-standard"
+        label:
+          en_US: "knowledge-extract-standard"
+          zh_Hans: "knowledge-extract-standard"
+      - value: "knowledge-extract-mini"
+        label:
+          en_US: "knowledge-extract-mini"
+          zh_Hans: "knowledge-extract-mini"
+    default: ""
+  - name: language
+    type: select
+    required: false
+    label:
+      en_US: Language
+      zh_Hans: Language
+    human_description:
+      en_US: "Language for knowledge graph construction. Only effective when knowledge graph is enabled."
+      zh_Hans: "构建知识图谱使用的语言。仅当开启构建知识图谱时生效"
+    llm_description: "Language for knowledge graph construction. Only effective when knowledge graph is enabled."
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "None"
+          zh_Hans: "无"
+      - value: "English"
+        label:
+          en_US: "English"
+          zh_Hans: "英语"
+      - value: "Simplified Chinese"
+        label:
+          en_US: "Simplified Chinese"
+          zh_Hans: "简体中文"
+    default: ""
+  - name: entity_types
+    type: string
+    required: false
+    label:
+      en_US: EntityTypes
+      zh_Hans: EntityTypes
+    human_description:
+      en_US: "Entity types separated by commas. Required when knowledge graph is enabled. Example: Person,Location,Event"
+      zh_Hans: "实体类型，用逗号分隔。当开启构建知识图谱时必传。示例：人物,地点,事件"
+    llm_description: "Entity types separated by commas. Required when knowledge graph is enabled."
+    form: llm
+  - name: relationship_types
+    type: string
+    required: false
+    label:
+      en_US: RelationshipTypes
+      zh_Hans: RelationshipTypes
+    human_description:
+      en_US: "Relationship types separated by commas. Required when knowledge graph is enabled. Example: occurs,located_at,belongs_to"
+      zh_Hans: "关系类型，用逗号分隔。当开启构建知识图谱时必传。示例：发生,处于,从属"
+    llm_description: "Relationship types separated by commas. Required when knowledge graph is enabled."
+    form: llm
+  - name: embedding_model
+    type: select
+    required: false
+    label:
+      en_US: EmbeddingModel
+      zh_Hans: EmbeddingModel
+    human_description:
+      en_US: "Vectorization model for text or image embeddings."
+      zh_Hans: "文本或图片向量化模型"
+    llm_description: "Vectorization model for text or image embeddings."
+    form: form
+    options:
+      - value: "text-embedding-v1"
+        label:
+          en_US: "text-embedding-v1 (1536 dim)"
+          zh_Hans: "text-embedding-v1 (1536维)"
+      - value: "text-embedding-v2"
+        label:
+          en_US: "text-embedding-v2 (1536 dim)"
+          zh_Hans: "text-embedding-v2 (1536维)"
+      - value: "text-embedding-v3"
+        label:
+          en_US: "text-embedding-v3 (1024/768/512 dim)"
+          zh_Hans: "text-embedding-v3 (1024/768/512维)"
+      - value: "text-embedding-v4"
+        label:
+          en_US: "text-embedding-v4 (1024 dim)"
+          zh_Hans: "text-embedding-v4 (1024/2048/1536/768/512/256/128/64维)"
+      - value: "text2vec"
+        label:
+          en_US: "text2vec (1024 dim)"
+          zh_Hans: "text2vec (1024维)"
+      - value: "m3e-base"
+        label:
+          en_US: "m3e-base (768 dim)"
+          zh_Hans: "m3e-base (768维)"
+      - value: "m3e-small"
+        label:
+          en_US: "m3e-small (512 dim)"
+          zh_Hans: "m3e-small (512维)"
+      - value: "clip-vit-b-32"
+        label:
+          en_US: "clip-vit-b-32 (512 dim, image)"
+          zh_Hans: "clip-vit-b-32 (512维, 图片)"
+      - value: "clip-vit-b-16"
+        label:
+          en_US: "clip-vit-b-16 (512 dim, image)"
+          zh_Hans: "clip-vit-b-16 (512维, 图片)"
+      - value: "clip-vit-l-14"
+        label:
+          en_US: "clip-vit-l-14 (768 dim, image)"
+          zh_Hans: "clip-vit-l-14 (768维, 图片)"
+      - value: "clip-vit-l-14-336px"
+        label:
+          en_US: "clip-vit-l-14-336px (768 dim, image)"
+          zh_Hans: "clip-vit-l-14-336px (768维, 图片)"
+      - value: "clip-rn50"
+        label:
+          en_US: "clip-rn50 (1024 dim, image)"
+          zh_Hans: "clip-rn50 (1024维, 图片)"
+      - value: "clip-rn101"
+        label:
+          en_US: "clip-rn101 (512 dim, image)"
+          zh_Hans: "clip-rn101 (512维, 图片)"
+      - value: "clip-rn50x4"
+        label:
+          en_US: "clip-rn50x4 (640 dim, image)"
+          zh_Hans: "clip-rn50x4 (640维, 图片)"
+      - value: "clip-rn50x16"
+        label:
+          en_US: "clip-rn50x16 (768 dim, image)"
+          zh_Hans: "clip-rn50x16 (768维, 图片)"
+      - value: "clip-rn50x64"
+        label:
+          en_US: "clip-rn50x64 (1024 dim, image)"
+          zh_Hans: "clip-rn50x64 (1024维, 图片)"
+    default: "text-embedding-v3"
+  - name: metadata
+    type: string
+    required: false
+    label:
+      en_US: Metadata
+      zh_Hans: Metadata
+    human_description:
+      en_US: "Metadata for vector data, in MAP format JSON string. Key is field name, value is data type."
+      zh_Hans: "向量数据的元信息，为 MAP 格式的 JSON 字符串。key 代表字段名，value 代表数据类型"
+    llm_description: "Metadata for vector data, in MAP format JSON string."
+    form: form
+  - name: full_text_retrieval_fields
+    type: string
+    required: false
+    label:
+      en_US: FullTextRetrievalFields
+      zh_Hans: FullTextRetrievalFields
+    human_description:
+      en_US: "Fields for full text retrieval, multiple fields separated by commas. Fields must be defined in Metadata."
+      zh_Hans: "用于全文检索的字段，多个字段用英文逗号分隔，且字段必须属于 Metadata 里定义的 key"
+    llm_description: "Fields for full text retrieval, multiple fields separated by commas."
+    form: form
+  - name: parser
+    type: string
+    required: false
+    label:
+      en_US: Parser
+      zh_Hans: Parser
+    human_description:
+      en_US: "Tokenizer for full text retrieval. Default: zh_cn."
+      zh_Hans: "用于全文检索的分词器，默认为 zh_cn"
+    llm_description: "Tokenizer for full text retrieval. Default: zh_cn."
+    form: form
+  - name: metrics
+    type: select
+    required: false
+    label:
+      en_US: Metrics
+      zh_Hans: Metrics
+    human_description:
+      en_US: "Vector index distance method."
+      zh_Hans: "向量索引的距离计算方法"
+    llm_description: "Vector index distance method."
+    form: form
+    options:
+      - value: "cosine"
+        label:
+          en_US: "cosine (Cosine Similarity)"
+          zh_Hans: "cosine (余弦相似度)"
+      - value: "l2"
+        label:
+          en_US: "l2 (Euclidean Distance)"
+          zh_Hans: "l2 (欧氏距离)"
+      - value: "ip"
+        label:
+          en_US: "ip (Inner Product)"
+          zh_Hans: "ip (点积距离)"
+    default: "cosine"
+  - name: hnsw_m
+    type: number
+    required: false
+    label:
+      en_US: HnswM
+      zh_Hans: HnswM
+    human_description:
+      en_US: "Maximum number of neighbors in HNSW algorithm. Auto-set based on vector dimension, usually no need to set manually."
+      zh_Hans: "HNSW 算法中的最大邻居数。接口会根据向量维度自动设置，一般不需要手动设置"
+    llm_description: "Maximum number of neighbors in HNSW algorithm."
+    form: form
+  - name: hnsw_ef_construction
+    type: number
+    required: false
+    label:
+      en_US: HnswEfConstruction
+      zh_Hans: HnswEfConstruction
+    human_description:
+      en_US: "Candidate set size when building HNSW index. Range: 4-1000, default: 64. Only for version 7.0, must be >= 2*HNSW_M."
+      zh_Hans: "HNSW 算法构建索引时的候选集大小。取值范围：4-1000，默认值 64。仅 7.0 版需要，且取值需 >= 2*HNSW_M"
+    llm_description: "Candidate set size when building HNSW index. Default: 64."
+    form: form
+  - name: pq_enable
+    type: boolean
+    required: false
+    label:
+      en_US: PqEnable
+      zh_Hans: PqEnable
+    human_description:
+      en_US: "Whether to enable PQ (Product Quantization) algorithm acceleration. Recommended when data volume > 500k."
+      zh_Hans: "索引是否开启 PQ 算法加速，数据量大于 50w 时建议开启"
+    llm_description: "Whether to enable PQ algorithm acceleration."
+    form: form
+    default: true
+  - name: external_storage
+    type: number
+    required: false
+    label:
+      en_US: ExternalStorage
+      zh_Hans: ExternalStorage
+    human_description:
+      en_US: "Whether to use mmap to build HNSW index. 0: default segment-page storage (supports delete/update), 1: mmap mode (faster upload, no delete/update). Only version 6.0 supports."
+      zh_Hans: "是否使用 mmap 构建 HNSW 索引。0：默认段页式存储（支持删除更新），1：mmap 模式（上传更快，不支持删除更新）。仅 6.0 版本支持"
+    llm_description: "Whether to use mmap to build HNSW index. Only version 6.0 supports."
+    form: form
+  - name: metadata_indices
+    type: string
+    required: false
+    label:
+      en_US: MetadataIndices
+      zh_Hans: MetadataIndices
+    human_description:
+      en_US: "Scalar index fields, multiple fields separated by commas. Fields must be defined in Metadata."
+      zh_Hans: "标量索引字段，多个字段用英文逗号分隔，且字段必须属于 Metadata 里定义的 key"
+    llm_description: "Scalar index fields, multiple fields separated by commas."
+    form: form
+output_schema:
+  type: object
+  properties:
+    Message:
+      type: string
+      human_description:
+        en_US: "The message indicating the result of the operation"
+        zh_Hans: "调用结果"
+    RequestId:
+      type: string
+      human_description:
+        en_US: "The request ID for tracking the operation"
+        zh_Hans: "请求ID"
+    Status:
+      type: string
+      human_description:
+        en_US: "The status of the operation (e.g., 'success')"
+extra:
+  python:
+    source: tools/create_document_collection/create_document_collection.py

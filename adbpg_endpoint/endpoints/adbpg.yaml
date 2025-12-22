@@ -1,0 +1,6 @@
+path: "/retrieval"
+method: "POST"
+extra:
+  python:
+    source: "endpoints/adbpg.py"
+

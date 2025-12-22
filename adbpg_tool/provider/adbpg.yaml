@@ -1,0 +1,176 @@
+# Tool Provider Configuration
+identity:
+  author: "aliyun-adbpg"
+  name: "adbpg-tools"
+  label:
+    en_US: "AnalyticDB for PostgreSQL"
+    zh_Hans: "AnalyticDB for PostgreSQL"
+    pt_BR: "AnalyticDB for PostgreSQL"
+    ja_JP: "AnalyticDB for PostgreSQL"
+  description:
+    en_US: "AnalyticDB for PostgreSQL tools"
+    zh_Hans: "AnalyticDB for PostgreSQL 工具"
+    pt_BR: "AnalyticDB for PostgreSQL tools"
+    ja_JP: "AnalyticDB for PostgreSQL tools"
+  icon: "icon.svg"
+  tags:
+    - search
+credentials_for_provider:
+  ANALYTICDB_KEY_ID:
+    type: "text-input"
+    required: true
+    label:
+      en_US: "Access Key ID"
+      zh_Hans: "Access Key ID"
+      pt_BR: "Access Key ID"
+      ja_JP: "Access Key ID"
+    placeholder:
+      en_US: "Please input your Alibaba Cloud Access Key ID"
+      zh_Hans: "请输入你的 阿里云 Access Key ID"
+      pt_BR: "Insira seu Alibaba Cloud Access Key ID"
+      ja_JP: "アリババクラウドアクセスキーIDを入力してください"
+    help:
+      en_US: "Create Alibaba Cloud Access Key ID"
+      zh_Hans: "创建阿里云访问密钥ID"
+      pt_BR: "Create Alibaba Cloud Access Key ID"
+      ja_JP: "Create Alibaba Cloud Access Key ID"
+    url: "https://www.alibabacloud.com/help/zh/ram/user-guide/create-an-accesskey-pair"
+  ANALYTICDB_KEY_SECRET:
+    type: "secret-input"
+    required: true
+    label:
+      en_US: "Access Key Secret"
+      zh_Hans: "Access Key Secret"
+      pt_BR: "Access Key Secret"
+      ja_JP: "Access Key Secret"
+    placeholder:
+      en_US: "Please input your Alibaba Cloud Access Key Secret"
+      zh_Hans: "请输入你的阿里云 Access Key Secret"
+      pt_BR: "Insira seu Alibaba Cloud Access Key Secret"
+      ja_JP: "アリババクラウドアクセスキー秘密を入力してください"
+    help:
+      en_US: "Access Key Secret for Alibaba Cloud authentication"
+      zh_Hans: "阿里云访问密钥秘密，用于身份认证"
+      pt_BR: "Access Key Secret para autenticação do Alibaba Cloud"
+      ja_JP: "アリババクラウド認証のアクセスキー秘密"
+  ANALYTICDB_REGION_ID:
+    type: "text-input"
+    required: true
+    label:
+      en_US: "Region ID"
+      zh_Hans: "区域 ID"
+      pt_BR: "Region ID"
+      ja_JP: "Region ID"
+    placeholder:
+      en_US: "Please input your Alibaba Cloud Region ID"
+      zh_Hans: "请输入你的实例所在的阿里云区域 ID，例如cn-hangzhou"
+      pt_BR: "Please input your Alibaba Cloud Region ID"
+      ja_JP: "Please input your Alibaba Cloud Region ID"
+    help:
+      en_US: "Region ID for Alibaba Cloud authentication"
+      zh_Hans: "阿里云区域 ID，用于身份认证"
+      pt_BR: "Region ID for Alibaba Cloud authentication"
+      ja_JP: "Region ID for Alibaba Cloud authentication"
+  ANALYTICDB_DBINSTANCE_ID:
+    type: "text-input"
+    required: true
+    label:
+      en_US: "AnalyticDB for PostgreSQL Database Instance ID"
+      zh_Hans: "AnalyticDB for PostgreSQL 数据库实例 ID"
+      pt_BR: "AnalyticDB for PostgreSQL Database Instance ID"
+      ja_JP: "AnalyticDB for PostgreSQL Database Instance ID"
+    placeholder:
+      en_US: "Please input your AnalyticDB for PostgreSQL Database Instance ID"
+      zh_Hans: "请输入AnalyticDB for PostgreSQL 数据库实例 ID，形如gp-xxxxxx"
+      pt_BR: "Please input your AnalyticDB for PostgreSQL Database Instance ID"
+      ja_JP: "Please input your AnalyticDB for PostgreSQL Database Instance ID"
+    help:
+      en_US: "Create AnalyticDB for PostgreSQL Database Instance ID"
+      zh_Hans: "创建AnalyticDB for PostgreSQL 数据库实例 ID"
+      pt_BR: "Create AnalyticDB for PostgreSQL Database Instance ID"
+      ja_JP: "Create AnalyticDB for PostgreSQL Database Instance ID"
+    url: "https://gpdbnext.console.aliyun.com/gpdb"
+  ANALYTICDB_MANAGER_ACCOUNT:
+    type: "text-input"
+    required: true
+    label:
+      en_US: "Manager Account"
+      zh_Hans: "管理员账户"
+      pt_BR: "Manager Account"
+      ja_JP: "Manager Account"
+    placeholder:
+      en_US: "Manager account username"
+      zh_Hans: "管理员账户用户名"
+      pt_BR: "Manager account username"
+      ja_JP: "Manager account username"
+  ANALYTICDB_MANAGER_ACCOUNT_PASSWORD:
+    type: "secret-input"
+    required: true
+    label:
+      en_US: "Manager Account Password"
+      zh_Hans: "管理员账户密码"
+      pt_BR: "Manager Account Password"
+      ja_JP: "Manager Account Password"
+    placeholder:
+      en_US: "Manager account password"
+      zh_Hans: "管理员账户密码"
+      pt_BR: "Manager account password"
+      ja_JP: "Manager account password"
+  ANALYTICDB_NAMESPACE:
+    type: "text-input"
+    required: true
+    label:
+      en_US: "Namespace"
+      zh_Hans: "命名空间"
+      pt_BR: "Namespace"
+      ja_JP: "Namespace"
+    placeholder:
+      en_US: "Namespace name (will be created if not exists)"
+      zh_Hans: "命名空间名称，不存在时会自动创建"
+      pt_BR: "Namespace name (will be created if not exists)"
+      ja_JP: "Namespace name (will be created if not exists)"
+  ANALYTICDB_NAMESPACE_PASSWORD:
+    type: "secret-input"
+    required: true
+    label:
+      en_US: "Namespace Password"
+      zh_Hans: "命名空间密码"
+      pt_BR: "Namespace Password"
+      ja_JP: "Namespace Password"
+    placeholder:
+      en_US: "Namespace password (will be changed if namespace exists)"
+      zh_Hans: "命名空间密码，命名空间已存在时，会更改密码"
+      pt_BR: "Namespace password (will be changed if namespace exists)"
+      ja_JP: "Namespace password (will be changed if namespace exists)"
+  ANALYTICDB_ENDPOINT:
+    type: "text-input"
+    required: false
+    default: "gpdb.aliyuncs.com"
+    label:
+      en_US: "Endpoint"
+      zh_Hans: "端点"
+      pt_BR: "Endpoint"
+      ja_JP: "Endpoint"
+    placeholder:
+      en_US: "Please input your Alibaba Cloud Endpoint, such as gpdb-cn-hangzhou.aliyuncs.com, generally use the default value"
+      zh_Hans: "请输入阿里云服务的端点，例如gpdb-cn-hangzhou.aliyuncs.com，一般使用默认值即可"
+      pt_BR: "Please input your Alibaba Cloud Endpoint, such as gpdb-cn-hangzhou.aliyuncs.com, generally use the default value"
+      ja_JP: "Please input your Alibaba Cloud Endpoint, such as gpdb-cn-hangzhou.aliyuncs.com, generally use the default value"
+
+tools:
+  - tools/list_knowledge_bases/list_knowledge_bases.yaml
+  - tools/create_document_collection/create_document_collection.yaml
+  - tools/upload_document_async/upload_document_async.yaml
+  - tools/get_upload_document_job/get_upload_document_job.yaml
+  - tools/delete_document/delete_document.yaml
+  - tools/query_content_image/query_content_image.yaml
+  - tools/query_content_text/query_content_text.yaml
+  - tools/chat_with_knowledge_base_stream/chat_with_knowledge_base_stream.yaml
+  - tools/text_embedding/text_embedding.yaml
+  - tools/rerank/rerank.yaml
+  - tools/upsert_chunks/upsert_chunks.yaml
+  - tools/adbpg_doc_parser/adbpg_doc_parser.yaml
+
+extra:
+  python:
+    source: provider/adbpg.py

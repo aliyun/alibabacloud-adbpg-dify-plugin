@@ -1,0 +1,37 @@
+version: 1.0.0
+type: plugin
+author: aliyun-adbpg
+name: adbpg-endpoint
+label:
+  en_US: adbpg-endpoint
+  ja_JP: adbpg-endpoint
+  zh_Hans: adbpg-endpoint
+  pt_BR: adbpg-endpoint
+description:
+  en_US: AnalyticDB for PostgreSQL external knowledge base endpoint service
+  ja_JP: AnalyticDB for PostgreSQL 外部知识库端点サービス
+  zh_Hans: AnalyticDB for PostgreSQL 外部知识库端点服务
+  pt_BR: Serviço de ponto final de base de conhecimento externa do PostgreSQL Analítico服务
+icon: icon.svg
+icon_dark: icon.svg
+resource:
+  memory: 268435456
+  permission:
+    endpoint:
+      enabled: true
+plugins:
+  endpoints:
+    - provider/adbpg.yaml
+meta:
+  version: 1.0.0
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2025-10-20T11:04:01.733378+08:00
+privacy: PRIVACY.md
+verified: false

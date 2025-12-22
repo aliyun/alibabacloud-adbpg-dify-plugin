@@ -1,0 +1,84 @@
+identity:
+  name: "upsertChunks"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "upsertChunks"
+    zh_Hans: "上传切分后的文档"
+description:
+  human:
+    en_US: "Upload chunked document to Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+    zh_Hans: "上传切分后的文档到阿里云AnalyticDB for PostgreSQL知识库"
+  llm: "A tool to upload chunked document to Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: true
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name"
+      zh_Hans: "文档库名称"
+    llm_description: "The document collection name"
+    form: llm
+  - name: file_name
+    type: string
+    required: true
+    label:
+      en_US: FileName
+      zh_Hans: FileName
+    human_description:
+      en_US: "The name of the file"
+      zh_Hans: "文件名称"
+    llm_description: "The name of the file"
+    form: llm
+  - name: text_chunks
+    type: string
+    required: true
+    label:
+      en_US: TextChunks
+      zh_Hans: TextChunks
+    human_description:
+      en_US: "JSON array of text chunks. Example: [{\"Content\":\"hello\",\"Id\":\"001\",\"Metadata\":{\"page_idx\":1}}]"
+      zh_Hans: "文本块JSON数组。示例：[{\"Content\":\"hello\",\"Id\":\"001\",\"Metadata\":{\"page_idx\":1}}]"
+    llm_description: "JSON array of text chunks with Content (required), Id (optional), Metadata (optional), Filter (optional)"
+    form: llm
+  - name: should_replace_file
+    type: boolean
+    required: false
+    label:
+      en_US: ShouldReplaceFile
+      zh_Hans: ShouldReplaceFile
+    human_description:
+      en_US: "Whether to replace existing file"
+      zh_Hans: "是否替换已存在的文件"
+    llm_description: "Whether to replace existing file"
+    form: llm
+  - name: allow_insert_with_filter
+    type: boolean
+    required: false
+    label:
+      en_US: AllowInsertWithFilter
+      zh_Hans: AllowInsertWithFilter
+    human_description:
+      en_US: "Whether to allow insertion with filter"
+      zh_Hans: "是否允许带过滤条件的插入"
+    llm_description: "Whether to allow insertion with filter"
+    form: llm
+output_schema:
+  type: "object"
+  properties:
+    RequestId:
+      type: "string"
+    Message:
+      type: "string"
+    Status:
+      type: "string"
+    EmbeddingTokens:
+      type: "string"
+    JobId:
+      type: "string"
+extra:
+  python:
+    source: tools/upsert_chunks/upsert_chunks.py
+

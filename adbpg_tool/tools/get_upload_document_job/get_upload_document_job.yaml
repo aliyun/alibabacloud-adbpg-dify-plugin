@@ -1,0 +1,98 @@
+identity:
+  name: "getUploadDocumentJob"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "getUploadDocumentJob"
+    zh_Hans: "查询文档上传任务"
+description:
+  human:
+    en_US: "Query upload document job status in Alibaba Cloud AnalyticDB for PostgreSQL"
+    zh_Hans: "查询阿里云AnalyticDB for PostgreSQL中的文档上传任务状态"
+  llm: "A tool to query upload document job status in Alibaba Cloud AnalyticDB for PostgreSQL"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: true
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name"
+      zh_Hans: "文档库名称"
+    llm_description: "The document collection name"
+    form: llm
+  - name: jobid
+    type: string
+    required: true
+    label:
+      en_US: JobId
+      zh_Hans: JobId
+    human_description:
+      en_US: "The job ID of the upload task"
+      zh_Hans: "上传任务的作业ID"
+    llm_description: "The job ID of the upload task"
+    form: llm
+  - name: wait_until_finish
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: WaitUntilFinish
+      zh_Hans: WaitUntilFinish
+    human_description:
+      en_US: "Whether to wait until the job is finished (poll every 3 seconds, timeout 30 minutes)"
+      zh_Hans: "是否等待任务完成（每3秒轮询一次，超时30分钟）"
+    llm_description: "Whether to wait until the job is finished"
+    form: form
+
+output_schema:
+  type: "object"
+  properties:
+    RequestId:
+      type: "string"
+    Message:
+      type: "string"
+    Status:
+      type: "string"
+    Job:
+      type: "object"
+      properties:
+        Id:
+          type: "string"
+        Completed:
+          type: "boolean"
+        CreateTime:
+          type: "string"
+        UpdateTime:
+          type: "string"
+        Status:
+          type: "string"
+        Error:
+          type: "string"
+        Progress:
+          type: "integer"
+          format: "int32"
+        ErrorCode:
+          type: "string"
+    ChunkResult:
+      type: "object"
+      properties:
+        ChunkFileUrl:
+          type: "string"
+        PlainChunkFileUrl:
+          type: "string"
+        DocumentLoaderResultFileUrl:
+          type: "string"
+    Usage:
+      type: "object"
+      properties:
+        EmbeddingTokens:
+          type: "integer"
+          format: "int32"
+        EmbeddingEntries:
+          type: "integer"
+          format: "int32"
+extra:
+  python:
+    source: tools/get_upload_document_job/get_upload_document_job.py
+

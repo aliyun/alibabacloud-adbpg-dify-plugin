@@ -1,0 +1,117 @@
+identity:
+  name: "rerank"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "rerank"
+    zh_Hans: "文本精排"
+description:
+  human:
+    en_US: "Rerank documents using Alibaba Cloud AnalyticDB for PostgreSQL"
+    zh_Hans: "使用阿里云AnalyticDB for PostgreSQL对文档进行精排"
+  llm: "A tool to rerank documents using Alibaba Cloud AnalyticDB for PostgreSQL"
+parameters:
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: Query
+      zh_Hans: Query
+    human_description:
+      en_US: "The query text for reranking"
+      zh_Hans: "用于重排序的查询文本"
+    llm_description: "The query text for reranking"
+    form: llm
+  - name: documents
+    type: string
+    required: true
+    label:
+      en_US: Documents
+      zh_Hans: Documents
+    human_description:
+      en_US: "JSON array of documents to rerank. Example: [\"doc1\", \"doc2\"]"
+      zh_Hans: "要重排序的文档列表，JSON数组格式。示例：[\"文档1\", \"文档2\"]"
+    llm_description: "JSON array of documents to rerank"
+    form: llm
+  - name: rerank_model
+    type: select
+    required: false
+    label:
+      en_US: RerankModel
+      zh_Hans: RerankModel
+    human_description:
+      en_US: "The rerank model to use"
+      zh_Hans: "使用的重排序模型"
+    llm_description: "The rerank model to use"
+    form: form
+    options:
+      - value: "bge-reranker-v2-m3"
+        label:
+          en_US: "bge-reranker-v2-m3 (8192 tokens)"
+          zh_Hans: "bge-reranker-v2-m3 (8192 tokens)"
+      - value: "bge-reranker-v2-minicpm-layerwise"
+        label:
+          en_US: "bge-reranker-v2-minicpm-layerwise (2048 tokens, better)"
+          zh_Hans: "bge-reranker-v2-minicpm-layerwise (2048 tokens, 效果更优)"
+    default: "bge-reranker-v2-m3"
+  - name: topk
+    type: number
+    required: false
+    label:
+      en_US: TopK
+      zh_Hans: TopK
+    human_description:
+      en_US: "Number of top results to return after reranking"
+      zh_Hans: "重排序后返回的结果数量"
+    llm_description: "Number of top results to return after reranking"
+    form: llm
+  - name: return_documents
+    type: boolean
+    required: false
+    label:
+      en_US: ReturnDocuments
+      zh_Hans: ReturnDocuments
+    human_description:
+      en_US: "Whether to return document content in the results"
+      zh_Hans: "是否在结果中返回文档内容"
+    llm_description: "Whether to return document content in the results"
+    form: form
+  - name: max_chunks_per_doc
+    type: number
+    required: false
+    label:
+      en_US: MaxChunksPerDoc
+      zh_Hans: MaxChunksPerDoc
+    human_description:
+      en_US: "Maximum number of chunks per document"
+      zh_Hans: "每个文档的最大块数"
+    llm_description: "Maximum number of chunks per document"
+    form: form
+output_schema:
+  type: "object"
+  properties:
+    RequestId:
+      type: "string"
+    Message:
+      type: "string"
+    Status:
+      type: "string"
+    Tokens:
+      type: "integer"
+      format: "int32"
+    Results:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          Document:
+            type: "string"
+          Index:
+            type: "integer"
+            format: "int32"
+          RelevanceScore:
+            type: "number"
+            format: "float"
+extra:
+  python:
+    source: tools/rerank/rerank.py
+

@@ -1,0 +1,100 @@
+identity:
+  name: "textEmbedding"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "textEmbedding"
+    zh_Hans: "文本向量化"
+description:
+  human:
+    en_US: "Convert text to embeddings using Alibaba Cloud AnalyticDB for PostgreSQL"
+    zh_Hans: "使用阿里云AnalyticDB for PostgreSQL将文本转换为向量"
+  llm: "A tool to convert text to embeddings using Alibaba Cloud AnalyticDB for PostgreSQL"
+parameters:
+  - name: input
+    type: string
+    required: true
+    label:
+      en_US: Input
+      zh_Hans: Input
+    human_description:
+      en_US: "JSON array of text strings to convert to embeddings. Example: [\"text1\", \"text2\"]"
+      zh_Hans: "要转换为向量的文本字符串列表，JSON数组格式。示例：[\"文本1\", \"文本2\"]"
+    llm_description: "JSON array of text strings to convert to embeddings"
+    form: llm
+  - name: embedding_model
+    type: select
+    required: false
+    label:
+      en_US: EmbeddingModel
+      zh_Hans: EmbeddingModel
+    human_description:
+      en_US: "The embedding model to use for text vectorization"
+      zh_Hans: "使用的文本向量化模型"
+    llm_description: "The embedding model to use for text vectorization"
+    form: form
+    options:
+      - value: "text-embedding-v3"
+        label:
+          en_US: "text-embedding-v3 (1024/768/512 dim)"
+          zh_Hans: "text-embedding-v3 (1024/768/512维)"
+      - value: "text-embedding-v1"
+        label:
+          en_US: "text-embedding-v1 (1536 dim)"
+          zh_Hans: "text-embedding-v1 (1536维)"
+      - value: "text-embedding-v2"
+        label:
+          en_US: "text-embedding-v2 (1536 dim)"
+          zh_Hans: "text-embedding-v2 (1536维)"
+      - value: "text2vec"
+        label:
+          en_US: "text2vec (1024 dim)"
+          zh_Hans: "text2vec (1024维)"
+      - value: "m3e-base"
+        label:
+          en_US: "m3e-base (768 dim)"
+          zh_Hans: "m3e-base (768维)"
+      - value: "m3e-small"
+        label:
+          en_US: "m3e-small (512 dim)"
+          zh_Hans: "m3e-small (512维)"
+    default: "text-embedding-v3"
+  - name: dimension
+    type: number
+    required: false
+    label:
+      en_US: Dimension
+      zh_Hans: Dimension
+    human_description:
+      en_US: "The dimension of the output embeddings"
+      zh_Hans: "输出向量的维度"
+    llm_description: "The dimension of the output embeddings"
+    form: llm
+output_schema:
+  type: object
+  properties:
+    RequestId:
+      type: "string"
+    Message:
+      type: "string"
+    Status:
+      type: "string"
+    TextTokens:
+      type: "integer"
+      format: "int32"
+    Results:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          Embedding:
+            type: "array"
+            items:
+              type: "number"
+              format: "double"
+          Index:
+            type: "integer"
+            format: "int32"
+extra:
+  python:
+    source: tools/text_embedding/text_embedding.py
+

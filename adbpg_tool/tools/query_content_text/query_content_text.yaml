@@ -1,0 +1,377 @@
+identity:
+  name: "queryContentText"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "queryContentText"
+    zh_Hans: "文本召回"
+description:
+  human:
+    en_US: "Query text content from Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+    zh_Hans: "从阿里云AnalyticDB for PostgreSQL知识库中查询文本内容"
+  llm: "A tool to query text content from Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: true
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name"
+      zh_Hans: "文档库名称"
+    llm_description: "The document collection name"
+    form: llm
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: Query
+      zh_Hans: Query
+    human_description:
+      en_US: "The query text for content search"
+      zh_Hans: "用于内容搜索的查询文本"
+    llm_description: "The query text for content search"
+    form: llm
+  - name: top_k
+    type: number
+    required: false
+    label:
+      en_US: TopK
+      zh_Hans: TopK
+    human_description:
+      en_US: "Number of top results to return"
+      zh_Hans: "返回的结果数量"
+    llm_description: "Number of top results to return"
+    form: llm
+  - name: use_full_text_retrieval
+    type: boolean
+    required: false
+    label:
+      en_US: UseFullTextRetrieval
+      zh_Hans: UseFullTextRetrieval
+    human_description:
+      en_US: "Whether to use full text retrieval"
+      zh_Hans: "是否使用全文检索"
+    llm_description: "Whether to use full text retrieval"
+    form: llm
+  - name: rerank_factor
+    type: number
+    required: false
+    label:
+      en_US: RerankFactor
+      zh_Hans: RerankFactor
+    human_description:
+      en_US: "Rerank factor for result reordering"
+      zh_Hans: "结果重排序的重排因子"
+    llm_description: "Rerank factor for result reordering"
+    form: llm
+  - name: graph_enhance
+    type: boolean
+    required: false
+    label:
+      en_US: GraphEnhance
+      zh_Hans: GraphEnhance
+    human_description:
+      en_US: "Whether to enable knowledge graph enhancement"
+      zh_Hans: "是否启用知识图谱增强"
+    llm_description: "Whether to enable knowledge graph enhancement"
+    form: llm
+  - name: filter
+    type: string
+    required: false
+    label:
+      en_US: Filter
+      zh_Hans: Filter
+    human_description:
+      en_US: "Filter condition for results"
+      zh_Hans: "结果的过滤条件"
+    llm_description: "Filter condition for results"
+    form: form
+  - name: recall_window
+    type: string
+    required: false
+    label:
+      en_US: RecallWindow
+      zh_Hans: RecallWindow
+    human_description:
+      en_US: "Recall window, two comma-separated integers. Example: -3,6"
+      zh_Hans: "召回窗口，两个逗号分隔的整数。示例：-3,6"
+    llm_description: "Recall window, two comma-separated integers"
+    form: form
+  - name: metrics
+    type: select
+    required: false
+    label:
+      en_US: Metrics
+      zh_Hans: Metrics
+    human_description:
+      en_US: "Distance metrics for search"
+      zh_Hans: "搜索的距离度量方式"
+    llm_description: "Distance metrics for search"
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "Auto"
+          zh_Hans: "Auto"
+      - value: "l2"
+        label:
+          en_US: "l2 (Euclidean distance)"
+          zh_Hans: "l2 (欧氏距离)"
+      - value: "ip"
+        label:
+          en_US: "ip (Inner product)"
+          zh_Hans: "ip (点积/内积距离)"
+      - value: "cosine"
+        label:
+          en_US: "cosine (Cosine similarity)"
+          zh_Hans: "cosine (余弦相似度)"
+    default: ""
+  - name: include_vector
+    type: boolean
+    required: false
+    label:
+      en_US: IncludeVector
+      zh_Hans: IncludeVector
+    human_description:
+      en_US: "Whether to include vector in results"
+      zh_Hans: "是否在结果中包含向量"
+    llm_description: "Whether to include vector in results"
+    form: form
+  - name: hybrid_search
+    type: select
+    required: false
+    label:
+      en_US: HybridSearch
+      zh_Hans: HybridSearch
+    human_description:
+      en_US: "Hybrid search algorithm"
+      zh_Hans: "混合搜索算法"
+    llm_description: "Hybrid search algorithm"
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "None (Disabled)"
+          zh_Hans: "None (不开启)"
+      - value: "RRF"
+        label:
+          en_US: "RRF (Reciprocal Rank Fusion)"
+          zh_Hans: "RRF (倒数排序融合)"
+      - value: "Weight"
+        label:
+          en_US: "Weight (Score weighting)"
+          zh_Hans: "Weight (比重排序)"
+      - value: "Cascaded"
+        label:
+          en_US: "Cascaded (Full-text then vector)"
+          zh_Hans: "Cascaded (先全文后向量)"
+    default: ""
+  - name: hybrid_search_k
+    type: number
+    required: false
+    label:
+      en_US: HybridSearchK
+      zh_Hans: HybridSearchK
+    human_description:
+      en_US: "RRF algorithm parameter k (> 1), used in formula 1/(k+rank_i)"
+      zh_Hans: "RRF算法参数k (>1)，用于公式 1/(k+rank_i)"
+    llm_description: "RRF algorithm parameter k"
+    form: form
+    default: 60
+  - name: hybrid_search_alpha
+    type: number
+    required: false
+    label:
+      en_US: HybridSearchAlpha
+      zh_Hans: HybridSearchAlpha
+    human_description:
+      en_US: "Weight algorithm parameter alpha (0-1), formula: alpha*vector_score + (1-alpha)*text_score"
+      zh_Hans: "Weight算法参数alpha (0-1)，公式：alpha*向量分数 + (1-alpha)*全文分数"
+    llm_description: "Weight algorithm parameter alpha (0-1)"
+    form: form
+    default: 0.5
+  - name: include_metadata_fields
+    type: string
+    required: false
+    label:
+      en_US: IncludeMetadataFields
+      zh_Hans: IncludeMetadataFields
+    human_description:
+      en_US: "Metadata fields to include, comma-separated. Example: title,page"
+      zh_Hans: "要返回的元数据字段，逗号分隔。示例：title,page"
+    llm_description: "Metadata fields to include, comma-separated"
+    form: form
+  - name: include_file_url
+    type: boolean
+    required: false
+    label:
+      en_US: IncludeFileUrl
+      zh_Hans: IncludeFileUrl
+    human_description:
+      en_US: "Whether to include file URL in results"
+      zh_Hans: "是否在结果中包含文件URL"
+    llm_description: "Whether to include file URL in results"
+    form: form
+  - name: url_expiration
+    type: number
+    required: false
+    label:
+      en_US: UrlExpiration
+      zh_Hans: UrlExpiration
+    human_description:
+      en_US: "URL expiration time in seconds"
+      zh_Hans: "URL过期时间（秒）"
+    llm_description: "URL expiration time in seconds"
+    form: form
+output_schema:
+  type: "object"
+  properties:
+    RequestId:
+      visibility: "Public"
+      type: "string"
+      backendName: "requestId"
+    Message:
+      type: "string"
+      backendName: "message"
+    Status:
+      type: "string"
+      backendName: "status"
+    Matches:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          Id:
+            type: "string"
+            backendName: "id"
+          Content:
+            type: "string"
+            backendName: "content"
+          Metadata:
+            type: "object"
+            additionalProperties:
+              type: "string"
+            backendName: "metadata"
+          Vector:
+            type: "array"
+            items:
+              type: "number"
+              format: "double"
+            backendName: "vector"
+            itemName: "VectorList"
+          FileName:
+            type: "string"
+            backendName: "fileName"
+          Score:
+            type: "number"
+            format: "double"
+            backendName: "score"
+          RetrievalSource:
+            type: "integer"
+            format: "int32"
+            backendName: "retrievalSource"
+          LoaderMetadata:
+            type: "string"
+            backendName: "loaderMetadata"
+          FileURL:
+            type: "string"
+            backendName: "fileURL"
+          RerankScore:
+            type: "number"
+            format: "double"
+            backendName: "rerankScore"
+      backendName: "matches"
+      itemName: "MatchList"
+    WindowMatches:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          WindowMatch:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                Id:
+                  type: "string"
+                  backendName: "id"
+                Content:
+                  type: "string"
+                  backendName: "content"
+                Metadata:
+                  type: "object"
+                  additionalProperties:
+                    type: "string"
+                  backendName: "metadata"
+                FileName:
+                  type: "string"
+                  backendName: "fileName"
+                LoaderMetadata:
+                  type: "string"
+                  backendName: "loaderMetadata"
+            backendName: "windowMatch"
+            itemName: "windowMatch"
+      backendName: "windowMatches"
+      itemName: "windowMatches"
+    EmbeddingTokens:
+      type: "string"
+      backendName: "tokens"
+    Usage:
+      type: "object"
+      properties:
+        EmbeddingTokens:
+          type: "string"
+          backendName: "embedding_tokens"
+        EmbeddingEntries:
+          type: "string"
+          backendName: "embedding_entries"
+      backendName: "usage"
+    Entities:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          Id:
+            type: "string"
+            backendName: "id"
+          Entity:
+            type: "string"
+            backendName: "entity"
+          Type:
+            type: "string"
+            backendName: "type"
+          Description:
+            type: "string"
+            backendName: "description"
+          FileName:
+            type: "string"
+            backendName: "fileName"
+      backendName: "entities"
+      itemName: "entities"
+    Relations:
+      type: "array"
+      items:
+        type: "object"
+        properties:
+          Id:
+            type: "string"
+            backendName: "id"
+          SourceEntity:
+            type: "string"
+            backendName: "sourceEntity"
+          TargetEntity:
+            type: "string"
+            backendName: "targetEntity"
+          Description:
+            type: "string"
+            backendName: "description"
+          FileName:
+            type: "string"
+            backendName: "fileName"
+      backendName: "relations"
+      itemName: "relations"
+extra:
+  python:
+    source: tools/query_content_text/query_content_text.py
+

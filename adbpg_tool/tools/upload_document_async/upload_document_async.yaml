@@ -1,0 +1,360 @@
+identity:
+  name: "uploadDocumentAsync"
+  author: "aliyun-adbpg"
+  label:
+    en_US: "uploadDocument"
+    zh_Hans: "文档上传"
+description:
+  human:
+    en_US: "Upload document to your Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+    zh_Hans: "上传文档到你的阿里云AnalyticDB for PostgreSQL知识库"
+  llm: "A tool to upload document to your Alibaba Cloud AnalyticDB for PostgreSQL knowledge base"
+parameters:
+  - name: knowledgebase
+    type: string
+    required: true
+    label:
+      en_US: KnowledgeBase
+      zh_Hans: KnowledgeBase
+    human_description:
+      en_US: "The document collection name"
+      zh_Hans: "文档库名称"
+    llm_description: "The document collection name"
+    form: llm
+  - name: filename
+    type: string
+    required: true
+    label:
+      en_US: FileName
+      zh_Hans: FileName
+    human_description:
+      en_US: "The name of the file to upload"
+      zh_Hans: "要上传的文件名称"
+    llm_description: "The name of the file to upload"
+    form: llm
+  - name: fileurl
+    type: string
+    required: true
+    label:
+      en_US: FileUrl
+      zh_Hans: FileUrl
+    human_description:
+      en_US: "The URL or local path of the file to upload"
+      zh_Hans: "要上传的文件URL或本地路径"
+    llm_description: "The URL or local path of the file to upload"
+    form: llm
+  - name: chunksize
+    type: number
+    required: false
+    label:
+      en_US: ChunkSize
+      zh_Hans: ChunkSize
+    human_description:
+      en_US: "The size of each chunk for text splitting"
+      zh_Hans: "文本切分的块大小"
+    llm_description: "The size of each chunk for text splitting"
+    form: llm
+  - name: document_loader_name
+    type: select
+    required: false
+    label:
+      en_US: DocumentLoaderName
+      zh_Hans: DocumentLoaderName
+    human_description:
+      en_US: "The document loader to use for parsing files"
+      zh_Hans: "用于解析文件的文档加载器"
+    llm_description: "The document loader to use for parsing files"
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "Auto"
+          zh_Hans: "Auto"
+      - value: "ADBPGLoader"
+        label:
+          en_US: "ADBPGLoader (Paid, first 3000 pages free)"
+          zh_Hans: "ADBPGLoader (收费，前3000页免费)"
+      - value: "UnstructuredHTMLLoader"
+        label:
+          en_US: "UnstructuredHTMLLoader (.html)"
+          zh_Hans: "UnstructuredHTMLLoader (.html)"
+      - value: "UnstructuredMarkdownLoader"
+        label:
+          en_US: "UnstructuredMarkdownLoader (.md)"
+          zh_Hans: "UnstructuredMarkdownLoader (.md)"
+      - value: "PyMuPDFLoader"
+        label:
+          en_US: "PyMuPDFLoader (.pdf)"
+          zh_Hans: "PyMuPDFLoader (.pdf)"
+      - value: "PyPDFLoader"
+        label:
+          en_US: "PyPDFLoader (.pdf)"
+          zh_Hans: "PyPDFLoader (.pdf)"
+      - value: "RapidOCRPDFLoader"
+        label:
+          en_US: "RapidOCRPDFLoader (.pdf)"
+          zh_Hans: "RapidOCRPDFLoader (.pdf)"
+      - value: "PDFWithImageRefLoader"
+        label:
+          en_US: "PDFWithImageRefLoader (.pdf with image)"
+          zh_Hans: "PDFWithImageRefLoader (.pdf 图文关联)"
+      - value: "JSONLoader"
+        label:
+          en_US: "JSONLoader (.json)"
+          zh_Hans: "JSONLoader (.json)"
+      - value: "CSVLoader"
+        label:
+          en_US: "CSVLoader (.csv)"
+          zh_Hans: "CSVLoader (.csv)"
+      - value: "RapidOCRLoader"
+        label:
+          en_US: "RapidOCRLoader (.png/.jpg/.jpeg/.bmp)"
+          zh_Hans: "RapidOCRLoader (.png/.jpg/.jpeg/.bmp)"
+      - value: "UnstructuredFileLoader"
+        label:
+          en_US: "UnstructuredFileLoader (.eml/.msg/.rst/.txt/.docx/.epub/.odt/.pptx/.tsv)"
+          zh_Hans: "UnstructuredFileLoader (.eml/.msg/.rst/.txt/.docx/.epub/.odt/.pptx/.tsv)"
+    default: ""
+  - name: metadata
+    type: string
+    required: false
+    label:
+      en_US: Metadata
+      zh_Hans: Metadata
+    human_description:
+      en_US: "Metadata for the document in JSON string format"
+      zh_Hans: "文档的元信息，JSON字符串格式"
+    llm_description: "Metadata for the document in JSON string format"
+    form: form
+  - name: chunk_overlap
+    type: number
+    required: false
+    label:
+      en_US: ChunkOverlap
+      zh_Hans: ChunkOverlap
+    human_description:
+      en_US: "The overlap size between chunks"
+      zh_Hans: "块之间的重叠大小"
+    llm_description: "The overlap size between chunks"
+    form: form
+  - name: separators
+    type: string
+    required: false
+    label:
+      en_US: Separators
+      zh_Hans: Separators
+    human_description:
+      en_US: "JSON array of separators for text splitting. Example: [\"\\n\\n\", \"\\n\", \" \"]"
+      zh_Hans: "文本切分的分隔符列表，JSON数组格式。示例：[\"\\n\\n\", \"\\n\", \" \"]"
+    llm_description: "JSON array of separators for text splitting"
+    form: form
+  - name: dry_run
+    type: boolean
+    required: false
+    label:
+      en_US: DryRun
+      zh_Hans: DryRun
+    human_description:
+      en_US: "Whether to perform a dry run without actual upload"
+      zh_Hans: "是否执行试运行而不实际上传"
+    llm_description: "Whether to perform a dry run without actual upload"
+    form: form
+  - name: zh_title_enhance
+    type: boolean
+    required: false
+    label:
+      en_US: ZhTitleEnhance
+      zh_Hans: ZhTitleEnhance
+    human_description:
+      en_US: "Whether to enhance Chinese title recognition"
+      zh_Hans: "是否增强中文标题识别"
+    llm_description: "Whether to enhance Chinese title recognition"
+    form: form
+  - name: text_splitter_name
+    type: select
+    required: false
+    label:
+      en_US: TextSplitterName
+      zh_Hans: TextSplitterName
+    human_description:
+      en_US: "The text splitter algorithm to use"
+      zh_Hans: "使用的文本切分算法"
+    llm_description: "The text splitter algorithm to use"
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "Auto"
+          zh_Hans: "Auto"
+      - value: "LLMSplitter"
+        label:
+          en_US: "LLMSplitter (LLM-based, ADBPGLoader only)"
+          zh_Hans: "LLMSplitter (LLM切分，仅ADBPGLoader可用)"
+      - value: "ChineseRecursiveTextSplitter"
+        label:
+          en_US: "ChineseRecursiveTextSplitter (Chinese optimized)"
+          zh_Hans: "ChineseRecursiveTextSplitter (中文优化)"
+      - value: "RecursiveCharacterTextSplitter"
+        label:
+          en_US: "RecursiveCharacterTextSplitter (Multi-language code)"
+          zh_Hans: "RecursiveCharacterTextSplitter (多语言代码)"
+      - value: "SpacyTextSplitter"
+        label:
+          en_US: "SpacyTextSplitter (Better segmentation)"
+          zh_Hans: "SpacyTextSplitter (更好的分割效果)"
+      - value: "MarkdownHeaderTextSplitter"
+        label:
+          en_US: "MarkdownHeaderTextSplitter (Markdown)"
+          zh_Hans: "MarkdownHeaderTextSplitter (Markdown文档)"
+    default: ""
+  - name: vl_enhance
+    type: boolean
+    required: false
+    label:
+      en_US: VlEnhance
+      zh_Hans: VlEnhance
+    human_description:
+      en_US: "Whether to enable vision-language enhancement"
+      zh_Hans: "是否启用视觉语言增强"
+    llm_description: "Whether to enable vision-language enhancement"
+    form: form
+  - name: splitter_model
+    type: select
+    required: false
+    label:
+      en_US: SplitterModel
+      zh_Hans: SplitterModel
+    human_description:
+      en_US: "The LLM model for LLMSplitter"
+      zh_Hans: "LLMSplitter使用的大语言模型"
+    llm_description: "The LLM model for LLMSplitter"
+    form: form
+    options:
+      - value: ""
+        label:
+          en_US: "Auto"
+          zh_Hans: "Auto"
+      - value: "qwq-plus"
+        label:
+          en_US: "qwq-plus"
+          zh_Hans: "qwq-plus"
+      - value: "qwq-plus-latest"
+        label:
+          en_US: "qwq-plus-latest"
+          zh_Hans: "qwq-plus-latest"
+      - value: "qwen-max"
+        label:
+          en_US: "qwen-max"
+          zh_Hans: "qwen-max"
+      - value: "qwen-max-latest"
+        label:
+          en_US: "qwen-max-latest"
+          zh_Hans: "qwen-max-latest"
+      - value: "qwen-plus"
+        label:
+          en_US: "qwen-plus"
+          zh_Hans: "qwen-plus"
+      - value: "qwen-plus-latest"
+        label:
+          en_US: "qwen-plus-latest"
+          zh_Hans: "qwen-plus-latest"
+      - value: "qwen-turbo"
+        label:
+          en_US: "qwen-turbo"
+          zh_Hans: "qwen-turbo"
+      - value: "qwen-turbo-latest"
+        label:
+          en_US: "qwen-turbo-latest"
+          zh_Hans: "qwen-turbo-latest"
+      - value: "qwen3-235b-a22b"
+        label:
+          en_US: "qwen3-235b-a22b"
+          zh_Hans: "qwen3-235b-a22b"
+      - value: "qwen3-32b"
+        label:
+          en_US: "qwen3-32b"
+          zh_Hans: "qwen3-32b"
+      - value: "qwen3-30b-a3b"
+        label:
+          en_US: "qwen3-30b-a3b"
+          zh_Hans: "qwen3-30b-a3b"
+      - value: "qwen3-14b"
+        label:
+          en_US: "qwen3-14b"
+          zh_Hans: "qwen3-14b"
+      - value: "qwen3-8b"
+        label:
+          en_US: "qwen3-8b"
+          zh_Hans: "qwen3-8b"
+      - value: "qwen3-4b"
+        label:
+          en_US: "qwen3-4b"
+          zh_Hans: "qwen3-4b"
+      - value: "qwen3-1.7b"
+        label:
+          en_US: "qwen3-1.7b"
+          zh_Hans: "qwen3-1.7b"
+      - value: "qwen3-0.6b"
+        label:
+          en_US: "qwen3-0.6b"
+          zh_Hans: "qwen3-0.6b"
+      - value: "qwq-32b"
+        label:
+          en_US: "qwq-32b"
+          zh_Hans: "qwq-32b"
+      - value: "qwen2.5-14b-instruct-1m"
+        label:
+          en_US: "qwen2.5-14b-instruct-1m"
+          zh_Hans: "qwen2.5-14b-instruct-1m"
+      - value: "qwen2.5-7b-instruct-1m"
+        label:
+          en_US: "qwen2.5-7b-instruct-1m"
+          zh_Hans: "qwen2.5-7b-instruct-1m"
+      - value: "qwen2.5-72b-instruct"
+        label:
+          en_US: "qwen2.5-72b-instruct"
+          zh_Hans: "qwen2.5-72b-instruct"
+      - value: "qwen2.5-32b-instruct"
+        label:
+          en_US: "qwen2.5-32b-instruct"
+          zh_Hans: "qwen2.5-32b-instruct"
+      - value: "qwen2.5-14b-instruct"
+        label:
+          en_US: "qwen2.5-14b-instruct"
+          zh_Hans: "qwen2.5-14b-instruct"
+      - value: "qwen2.5-7b-instruct"
+        label:
+          en_US: "qwen2.5-7b-instruct"
+          zh_Hans: "qwen2.5-7b-instruct"
+      - value: "qwen2.5-3b-instruct"
+        label:
+          en_US: "qwen2.5-3b-instruct"
+          zh_Hans: "qwen2.5-3b-instruct"
+      - value: "qwen2.5-1.5b-instruct"
+        label:
+          en_US: "qwen2.5-1.5b-instruct"
+          zh_Hans: "qwen2.5-1.5b-instruct"
+      - value: "qwen2.5-0.5b-instruct"
+        label:
+          en_US: "qwen2.5-0.5b-instruct"
+          zh_Hans: "qwen2.5-0.5b-instruct"
+    default: ""
+output_schema:
+  type: object
+  properties:
+    JobId:
+      type: string
+      description: "The job ID for the upload task"
+    Message:
+      type: string
+      description: "The message indicating the result of the operation"
+    RequestId:
+      type: string
+      description: "The request ID for tracking the operation"
+    Status:
+      type: string
+      description: "The status of the operation (e.g., 'success')"
+extra:
+  python:
+    source: tools/upload_document_async/upload_document_async.py
+

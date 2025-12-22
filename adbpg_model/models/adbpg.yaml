@@ -1,0 +1,165 @@
+# Model Provider Configuration
+provider: adbpg
+label:
+  en_US: AnalyticDB for PostgreSQL
+  zh_Hans: AnalyticDB for PostgreSQL
+  pt_BR: AnalyticDB for PostgreSQL
+  ja_JP: AnalyticDB for PostgreSQL
+description:
+  en_US: AnalyticDB for PostgreSQL AI models
+  zh_Hans: AnalyticDB for PostgreSQL AI 模型
+  pt_BR: AnalyticDB for PostgreSQL AI models
+  ja_JP: AnalyticDB for PostgreSQL AI models
+icon_small:
+  en_US: icon.svg
+icon_large:
+  en_US: icon.svg
+background: "#FFFFFF"
+help:
+  title:
+    en_US: Get your AnalyticDB credentials
+    zh_Hans: 获取 AnalyticDB 凭据
+    pt_BR: Get your AnalyticDB credentials
+    ja_JP: Get your AnalyticDB credentials
+  url:
+    en_US: https://gpdbnext.console.aliyun.com/gpdb
+
+supported_model_types:
+  - llm
+  - text-embedding
+  - rerank
+
+configurate_methods:
+  - predefined-model
+  - customizable-model
+
+provider_credential_schema:
+  credential_form_schemas:
+    - variable: ANALYTICDB_KEY_ID
+      type: text-input
+      required: true
+      label:
+        en_US: Access Key ID
+        zh_Hans: Access Key ID
+        pt_BR: Access Key ID
+        ja_JP: Access Key ID
+      placeholder:
+        en_US: Please input your Alibaba Cloud Access Key ID
+        zh_Hans: 请输入你的 阿里云 Access Key ID
+        pt_BR: Insira seu Alibaba Cloud Access Key ID
+        ja_JP: アリババクラウドアクセスキーIDを入力してください
+      help:
+        en_US: Access Key ID for Alibaba Cloud authentication
+        zh_Hans: 阿里云访问密钥ID，用于身份认证
+        pt_BR: Access Key ID para autenticação do Alibaba Cloud
+        ja_JP: アリババクラウド認証のアクセスキーID
+    - variable: ANALYTICDB_KEY_SECRET
+      type: secret-input
+      required: true
+      label:
+        en_US: Access Key Secret
+        zh_Hans: Access Key Secret
+        pt_BR: Access Key Secret
+        ja_JP: Access Key Secret
+      placeholder:
+        en_US: Please input your Alibaba Cloud Access Key Secret
+        zh_Hans: 请输入你的阿里云 Access Key Secret
+        pt_BR: Insira seu Alibaba Cloud Access Key Secret
+        ja_JP: アリババクラウドアクセスキー秘密を入力してください
+      help:
+        en_US: Access Key Secret for Alibaba Cloud authentication
+        zh_Hans: 阿里云访问密钥秘密，用于身份认证
+        pt_BR: Access Key Secret para autenticação do Alibaba Cloud
+        ja_JP: アリババクラウド認証のアクセスキー秘密
+    - variable: ANALYTICDB_REGION_ID
+      type: text-input
+      required: true
+      label:
+        en_US: Region ID
+        zh_Hans: 区域 ID
+        pt_BR: Region ID
+        ja_JP: Region ID
+      placeholder:
+        en_US: "Please input your Alibaba Cloud Region ID (e.g., cn-hangzhou)"
+        zh_Hans: 请输入你的实例所在的阿里云区域 ID，例如cn-hangzhou
+        pt_BR: Please input your Alibaba Cloud Region ID
+        ja_JP: Please input your Alibaba Cloud Region ID
+      help:
+        en_US: Region ID where your AnalyticDB instance is located
+        zh_Hans: AnalyticDB 实例所在的区域 ID
+        pt_BR: Region ID where your AnalyticDB instance is located
+        ja_JP: AnalyticDB インスタンスが配置されているリージョン ID
+    - variable: ANALYTICDB_DBINSTANCE_ID
+      type: text-input
+      required: true
+      label:
+        en_US: Database Instance ID
+        zh_Hans: 数据库实例 ID
+        pt_BR: Database Instance ID
+        ja_JP: Database Instance ID
+      placeholder:
+        en_US: "Please input your Database Instance ID (e.g., gp-xxxxxx)"
+        zh_Hans: 请输入阿里云数据库实例 ID，形如gp-xxxxxx
+        pt_BR: Please input your Database Instance ID
+        ja_JP: Please input your Database Instance ID
+      help:
+        en_US: AnalyticDB for PostgreSQL instance ID
+        zh_Hans: AnalyticDB for PostgreSQL 数据库实例 ID
+        pt_BR: AnalyticDB for PostgreSQL instance ID
+        ja_JP: AnalyticDB for PostgreSQL インスタンス ID
+    - variable: ANALYTICDB_ENDPOINT
+      type: text-input
+      required: false
+      default: gpdb.aliyuncs.com
+      label:
+        en_US: Endpoint
+        zh_Hans: 端点
+        pt_BR: Endpoint
+        ja_JP: Endpoint
+      placeholder:
+        en_US: "API endpoint (default: gpdb.aliyuncs.com)"
+        zh_Hans: "API 端点（默认：gpdb.aliyuncs.com）"
+        pt_BR: "API endpoint"
+        ja_JP: "API endpoint"
+      help:
+        en_US: API service endpoint, use default for most cases
+        zh_Hans: API 服务端点，大多数情况使用默认值即可
+        pt_BR: API service endpoint
+        ja_JP: API サービスエンドポイント
+
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+      zh_Hans: 模型名称
+      pt_BR: Model Name
+      ja_JP: Model Name
+    placeholder:
+      en_US: Enter your model name
+      zh_Hans: 输入模型名称
+      pt_BR: Enter your model name
+      ja_JP: Enter your model name
+  credential_form_schemas: []
+
+models:
+  llm:
+    position: models/llm/_position.yaml
+    predefined:
+      - models/llm/*.yaml
+  rerank:
+    position: models/rerank/_position.yaml
+    predefined:
+      - models/rerank/*.yaml
+  text_embedding:
+    position: models/text_embedding/_position.yaml
+    predefined:
+      - models/text_embedding/*.yaml
+
+extra:
+  python:
+    model_sources:
+      - models/llm/llm.py
+      - models/text_embedding/text_embedding.py
+      - models/rerank/rerank.py
+    provider_source: models/adbpg.py
+

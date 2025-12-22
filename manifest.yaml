@@ -1,0 +1,17 @@
+name: adbpg
+labels:
+    en_US: adbpg
+    ja_JP: adbpg
+    zh_Hans: adbpg
+    pt_BR: adbpg
+description:
+    en_US: adbpg service
+    ja_JP: adbpg service
+    zh_Hans: adbpg service
+    pt_BR: adbpg service
+icon: icon.svg
+version: 1.0.0
+author: aliyun-adbpg-team
+type: bundle
+dependencies: []
+tags: []

@@ -1,0 +1,13 @@
+[project]
+name = "adbpg"
+version = "1.0.0"
+description = "adbpg dify plugin"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alibabacloud-gpdb20160503>=4.14.0",
+    "black>=25.11.0",
+    "dify-plugin>=0.4.0,<0.7.0",
+    "isort>=7.0.0",
+    "pydantic>=2.12.4",
+]
