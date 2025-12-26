@@ -3,15 +3,15 @@ type: plugin
 author: aliyun-adbpg
 name: adbpg-endpoint
 label:
-  en_US: adbpg-endpoint
-  ja_JP: adbpg-endpoint
-  zh_Hans: adbpg-endpoint
-  pt_BR: adbpg-endpoint
+  en_US: Alibaba Cloud AnalyticDB External Knowledge Base
+  ja_JP: 阿里雲 AnalyticDB 外部知識ベース
+  zh_Hans: 阿里云 AnalyticDB 外部知识库
+  pt_BR: Alibaba Cloud AnalyticDB Base de Conhecimento Externa
 description:
-  en_US: AnalyticDB for PostgreSQL external knowledge base endpoint service
-  ja_JP: AnalyticDB for PostgreSQL 外部知识库端点サービス
-  zh_Hans: AnalyticDB for PostgreSQL 外部知识库端点服务
-  pt_BR: Serviço de ponto final de base de conhecimento externa do PostgreSQL Analítico服务
+  en_US: Direct API access to AnalyticDB for PostgreSQL retrieval engine. Supports massive full-text/vector search and hybrid ranking strategies.
+  ja_JP: AnalyticDB for PostgreSQL検索エンジンへの直接APIアクセス。大規模な全文/ベクトル検索およびハイブリッド・ランキングをサポート。
+  zh_Hans: 将 AnalyticDB for PostgreSQL 的专业检索能力通过 API 直连 Dify。支持超大规模数据的全文检索、向量检索及多种融合策略。
+  pt_BR: Acesso direto via API ao motor AnalyticDB for PostgreSQL. Suporta busca massiva de texto/vetor e estratégias de ranking híbrido.
 icon: icon.svg
 icon_dark: icon.svg
 resource:

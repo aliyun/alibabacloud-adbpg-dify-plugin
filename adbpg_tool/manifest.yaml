@@ -3,15 +3,15 @@ type: plugin
 author: aliyun-adbpg
 name: adbpg-tool
 label:
-  en_US: adbpg-tool
-  ja_JP: adbpg-tool
-  zh_Hans: adbpg-tool
-  pt_BR: adbpg-tool
+  en_US: Alibaba Cloud AnalyticDB RAG Toolkit
+  ja_JP: 阿里雲 AnalyticDB RAG ツールキット
+  zh_Hans: 阿里云 AnalyticDB RAG 增强工具箱
+  pt_BR: Alibaba Cloud AnalyticDB RAG Toolkit
 description:
-  en_US: AnalyticDB for PostgreSQL knowledge base management and document parsing tool
-  ja_JP: AnalyticDB for PostgreSQL 知識ベース管理及びドキュメント解析ツール
-  zh_Hans: AnalyticDB for PostgreSQL 知识库管理及文档解析工具
-  pt_BR: AnalyticDB for PostgreSQL knowledge base management and document parsing tool
+  en_US: One-stop RAG tools for Dify workflows based on AnalyticDB for PostgreSQL, featuring pro document parsing, multimodal retrieval, and graph enhancement.
+  ja_JP: AnalyticDB for PostgreSQLに基づくDifyワークフロー向け一ストップRAGツール。プロ仕様の文書解析、マルチモーダル検索、知識グラフ強化を提供。
+  zh_Hans: 为 Dify 工作流量身定制的基于 AnalyticDB for PostgreSQL 的一站式 RAG 组件集。包含专业级版面分析解析器、多模态图文入库/检索、知识图谱增强等能力。
+  pt_BR: Ferramentas RAG para fluxos Dify baseadas no AnalyticDB for PostgreSQL, com análise pro de documentos, recuperação multimodal e aprimoramento de grafos.
 icon: icon.svg
 icon_dark: icon.svg
 resource:
