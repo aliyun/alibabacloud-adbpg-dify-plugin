@@ -1,57 +1,59 @@
-## AnalyticDB for PostgreSQL × Dify 插件
+[中文版](README_ZH.md)
 
-本仓库是一个 **Dify 插件 Bundle**，用于把阿里云 **AnalyticDB for PostgreSQL** 的检索/向量/知识库能力接入 Dify 工作流与应用，覆盖 RAG 从“入库 → 检索 → 生成/问答”的完整链路。
+# AnalyticDB for PostgreSQL × Dify Plugin
 
-### 这是什么
+This repository is a **Dify Plugin Bundle** that integrates Alibaba Cloud **AnalyticDB for PostgreSQL** retrieval, vector, and knowledge base capabilities into Dify workflows and applications. It covers the complete RAG lifecycle from "Ingestion → Retrieval → Generation/QA."
 
-Bundle 内包含 3 个插件（对应 Dify 插件体系的三种类型）：
+### What is this?
 
-- **Tools 插件**：`adbpg_tool/`  
-  在 Dify 工作流中提供知识库管理、文档上传/解析、检索、问答、Embedding、Rerank 等工具。
-- **Models 插件**：`adbpg_model/`  
-  作为 Dify Model Provider，提供 LLM / Text Embedding / Rerank 预置模型与统一调用接口。
-- **Endpoint 插件**：`adbpg_endpoint/`  
-  用于 Dify External Knowledge Base，对外提供 `POST /retrieval` 检索端点。
+The bundle contains 3 plugins (corresponding to the three types in the Dify plugin system):
 
-### 解决什么场景问题
+- **Tools Plugin**: `adbpg_tool/`  
+  Provides tools for knowledge base management, document upload/parsing, retrieval, QA, Embedding, Rerank, etc., within Dify workflows.
+- **Models Plugin**: `adbpg_model/`  
+  Acts as a Dify Model Provider, offering LLM / Text Embedding / Rerank preset models and a unified calling interface.
+- **Endpoint Plugin**: `adbpg_endpoint/`  
+  Used for Dify External Knowledge Base, providing a `POST /retrieval` endpoint.
 
-- **企业/团队知识库问答（RAG）**：把 PDF/Word/网页等资料入库，支持混合检索（全文 + 向量）与精排，提升召回质量与答案一致性。
-- **混合检索与可控召回**：支持 RRF/Weight/Cascaded 等混合检索策略、过滤、窗口召回等高级参数（主要在 Tools 侧暴露）。
-- **多模态检索**：支持以图搜图等图片召回能力（Tools 侧 `queryContentImage`）。
-- **文档解析**：在dify`工作流编排`中，使用adbpg文档解析工具adbpg_doc_parser替代dify的`通用文本分块`工具。
+### Scenarios Addressed
 
-### 技术方案
+- **Enterprise/Team Knowledge Base QA (RAG)**: Ingest PDF/Word/webpage files into the knowledge base, supporting hybrid retrieval (full-text + vector) and reranking to improve recall quality and answer consistency.
+- **Hybrid Retrieval and Controlled Recall**: Supports advanced parameters such as RRF/Weight/Cascaded hybrid retrieval strategies, filtering, and window recall (primarily exposed in Tools).
+- **Multi-modal Retrieval**: Supports image recall capabilities like image-to-image search (`queryContentImage` in Tools).
+- **Document Parsing**: In Dify `Workflow Orchestration`, use the `adbpg_doc_parser` tool instead of Dify's `General Text Chunking` tool.
 
-- **Dify 插件 SDK（Python）**：实现 Tool/Model/Endpoint 三类插件。
-- **阿里云 AnalyticDB for PostgreSQL API**：通过云端 API 完成知识库管理、检索、向量化、精排等能力调用。
-- **统一数据结构适配**：
-  - Tools：以 Dify Tool schema（`tools/*.yaml`）定义能力与参数。
-  - Endpoint：将 AnalyticDB 检索结果映射为 Dify External Knowledge Base 的 `records` 结构，并对分数做归一化。
-  - Models：以 Dify Model Provider 接口提供 LLM/Embedding/Rerank。
+### Technical Solution
 
-### 快速开始
+- **Dify Plugin SDK (Python)**: Implements Tool/Model/Endpoint plugin types.
+- **Alibaba Cloud AnalyticDB for PostgreSQL API**: Calls cloud APIs for knowledge base management, retrieval, vectorization, and reranking.
+- **Unified Data Structure Adaptation**:
+  - **Tools**: Capabilities and parameters are defined using the Dify Tool schema (`tools/*.yaml`).
+  - **Endpoint**: Maps AnalyticDB retrieval results to the `records` structure of Dify External Knowledge Base and normalizes scores.
+  - **Models**: Provides LLM/Embedding/Rerank through the Dify Model Provider interface.
 
-1. **在 Dify 导入插件 Bundle**：使用 `build/` 下的 `*.difybndl`。
-2. **配置凭证**：
-   - Tools：见 `adbpg_tool/readme/README_zh_Hans.md`
-   - Models：见 `adbpg_model/readme/README_zh_Hans.md`
-   - Endpoint：见 `adbpg_endpoint/readme/README_zh_Hans.md`
-3. **推荐搭配方式**：
-   - 工作流内用 Tools 做入库/检索/问答
-   - 模型侧用 `adbpg-model` 提供 LLM/Embedding/Rerank
-   - 外部知识库场景用 `adbpg-endpoint` 提供 `/retrieval`
+### Quick Start
 
-### 文档索引
+1. **Import Plugin Bundle in Dify**: Use the `*.difybndl` files located in the `build/` directory.
+2. **Configure Credentials**:
+   - Tools: See `adbpg_tool/readme/README_en_US.md`
+   - Models: See `adbpg_model/readme/README_en_US.md`
+   - Endpoint: See `adbpg_endpoint/readme/README_en_US.md`
+3. **Recommended Usage**:
+   - Use Tools for ingestion/retrieval/QA within workflows.
+   - Use `adbpg-model` as the provider for LLM/Embedding/Rerank.
+   - Use `adbpg-endpoint` to provide `/retrieval` for external knowledge base scenarios.
 
-- **Tools**：`adbpg_tool/readme/README_zh_Hans.md` / `adbpg_tool/readme/README_en_US.md`
-- **Models**：`adbpg_model/readme/README_zh_Hans.md` / `adbpg_model/readme/README_en_US.md`
-- **Endpoint**：`adbpg_endpoint/readme/README_zh_Hans.md` / `adbpg_endpoint/readme/README_en_US.md`
+### Document Index
 
-### 需要帮助？
+- **Tools**: `adbpg_tool/readme/README_en_US.md` / `adbpg_tool/readme/README_zh_Hans.md`
+- **Models**: `adbpg_model/readme/README_en_US.md` / `adbpg_model/readme/README_zh_Hans.md`
+- **Endpoint**: `adbpg_endpoint/readme/README_en_US.md` / `adbpg_endpoint/readme/README_zh_Hans.md`
 
-- [AnalyticDB for PostgreSQL接口文档](https://help.aliyun.com/zh/analyticdb/analyticdb-for-postgresql/developer-reference/api-gpdb-2016-05-03-initvectordatabase?spm=a2c4g.11186623.0.i1)
-- [联系阿里云售后支持提交工单](https://www.aliyun.com/service)
-  - 请携带您的插件日志，位于dify插件守护容器：
+### Need Help?
+
+- [AnalyticDB for PostgreSQL API Documentation](https://help.aliyun.com/zh/analyticdb/analyticdb-for-postgresql/developer-reference/api-gpdb-2016-05-03-initvectordatabase?spm=a2c4g.11186623.0.i1)
+- [Contact Alibaba Cloud Support (Submit a Ticket)](https://www.aliyun.com/service)
+  - Please provide your plugin logs, located in the Dify plugin sidecar container:
     - `/tmp/adbpg_tools.log`
     - `/tmp/adbpg_models.log`
     - `/tmp/adbpg_endpoint.log`
