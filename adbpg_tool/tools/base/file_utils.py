@@ -49,7 +49,13 @@ def download_file_from_dify(file_url: str) -> str:
     Raises:
         RuntimeError: If download or save fails
     """
-    api_url = os.getenv("DIFY_INNER_API_URL", "http://api:5001")
+    api_url = (
+        os.getenv("INTERNAL_FILES_URL")
+        or os.getenv("FILES_URL")
+        or os.getenv("DIFY_INNER_API_URL")
+        or os.getenv("PLUGIN_DIFY_INNER_API_URL")
+        or "http://api:5001"
+    )
 
     if file_url.startswith("/"):
         full_url = f"{api_url.rstrip('/')}{file_url}"
