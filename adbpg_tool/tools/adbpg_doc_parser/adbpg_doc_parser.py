@@ -1,3 +1,4 @@
+import json
 import time
 from collections.abc import Generator
 from typing import Any
@@ -18,18 +19,26 @@ TIMEOUT = 30 * 60
 
 class AdbpgDocParser(Tool):
 
+    def _parse_content_to_chunks(self, content: str) -> list[str]:
+        """
+        Parse the content to chunks
+        """
+        chunks = []
+        for line in content.splitlines():
+            if not line.strip():
+                continue
+            try:
+                chunk_json = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            page_content = chunk_json.get("page_content", "")
+            metadata = json.dumps(chunk_json.get("metadata", {}), ensure_ascii=False)
+            chunk = f"{page_content}\n{metadata}"
+            chunks.append(chunk)
+        return chunks
+
     def _download_chunk_file(self, chunk_url: str) -> list[str]:
-        """
-        Download the plain chunk file and parse each line as a chunk
-
-        Args:
-            chunk_url: URL of the plain chunk file
-
-        Returns:
-            List of chunks (one per line)
-        """
         logger.info(f"Downloading chunk file from: {chunk_url}")
-
         try:
             response = requests.get(chunk_url, timeout=120)
             response.raise_for_status()
@@ -38,10 +47,7 @@ class AdbpgDocParser(Tool):
 
         # Explicitly decode as UTF-8 to handle Chinese text correctly
         content = response.content.decode("utf-8")
-        # Parse each line as a chunk
-        chunks = [line for line in content.splitlines() if line.strip()]
-        logger.info(f"Parsed {len(chunks)} chunks from chunk file")
-        return chunks
+        return self._parse_content_to_chunks(content)
 
     def _ensure_collection_exists(self, client: AnalyticDBAPIHelper):
         """
@@ -175,14 +181,14 @@ class AdbpgDocParser(Tool):
 
             # Step 4: Download chunk file and parse
             chunk_result = job_response.get("ChunkResult", {})
-            plain_chunk_url = chunk_result.get("PlainChunkFileUrl")
+            chunk_file_url = chunk_result.get("ChunkFileUrl")
 
-            if not plain_chunk_url:
+            if not chunk_file_url:
                 raise RuntimeError(
                     f"No PlainChunkFileUrl in job response: {job_response}"
                 )
 
-            chunks = self._download_chunk_file(plain_chunk_url)
+            chunks = self._download_chunk_file(chunk_file_url)
 
             logger.info(f"AdbpgDocParser returning {len(chunks)} chunks")
 
