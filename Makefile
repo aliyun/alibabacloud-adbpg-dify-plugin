@@ -1,4 +1,4 @@
-.PHONY: format export-deps package
+.PHONY: format export-deps package clean
 
 format:
 	black .
@@ -11,6 +11,7 @@ export-deps:
 	cp requirements.txt adbpg_endpoint/requirements.txt
 
 package:
+	make clean
 	@mkdir -p build
 	@dify plugin package ./adbpg_model -o ./build/adbpg_model.difypkg
 	@dify plugin package ./adbpg_tool -o ./build/adbpg_tool.difypkg
@@ -22,3 +23,8 @@ package:
 	@dify bundle remove . -i 0
 	@dify bundle remove . -i 0
 	@dify bundle remove . -i 0
+
+
+clean:
+	find _assets -maxdepth 1 -type f ! -name "*.svg" -delete
+	rm -rf build
