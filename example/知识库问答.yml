@@ -1,0 +1,565 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 知识库问答
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: aliyun-adbpg/adbpg-tool:1.0.0@082ed21566198886d0e2a01e6af6d1224a8c7eabad6443f262d3cf13de1a173a
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1767161620277-source-1767689221245-target
+      source: '1767161620277'
+      sourceHandle: source
+      target: '1767689221245'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1767689221245-source-answer-target
+      source: '1767689221245'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables:
+        - default: ''
+          hint: ''
+          label: kb_name
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: kb_name
+      height: 109
+      id: '1767161620277'
+      position:
+        x: 0
+        y: 85
+      positionAbsolute:
+        x: 0
+        y: 85
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#1767689221245.llm_answer#}}'
+        selected: true
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 103
+      id: answer
+      position:
+        x: 684
+        y: 70
+      positionAbsolute:
+        x: 684
+        y: 70
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The document collection name
+            ja_JP: The document collection name
+            pt_BR: The document collection name
+            zh_Hans: 文档库名称
+          label:
+            en_US: KnowledgeBase
+            ja_JP: KnowledgeBase
+            pt_BR: KnowledgeBase
+            zh_Hans: KnowledgeBase
+          llm_description: The document collection name
+          max: null
+          min: null
+          name: knowledgebase
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The user query message
+            ja_JP: The user query message
+            pt_BR: The user query message
+            zh_Hans: 用户查询消息
+          label:
+            en_US: Query
+            ja_JP: Query
+            pt_BR: Query
+            zh_Hans: Query
+          llm_description: The user query message
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The LLM model to use for chat
+            ja_JP: The LLM model to use for chat
+            pt_BR: The LLM model to use for chat
+            zh_Hans: 用于对话的LLM模型
+          label:
+            en_US: LlmModel
+            ja_JP: LlmModel
+            pt_BR: LlmModel
+            zh_Hans: LlmModel
+          llm_description: The LLM model to use for chat
+          max: null
+          min: null
+          name: llm_model
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Number of top results to retrieve from knowledge base
+            ja_JP: Number of top results to retrieve from knowledge base
+            pt_BR: Number of top results to retrieve from knowledge base
+            zh_Hans: 从知识库检索的结果数量
+          label:
+            en_US: TopK
+            ja_JP: TopK
+            pt_BR: TopK
+            zh_Hans: TopK
+          llm_description: Number of top results to retrieve from knowledge base
+          max: null
+          min: null
+          name: top_k
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Whether to use full text retrieval
+            ja_JP: Whether to use full text retrieval
+            pt_BR: Whether to use full text retrieval
+            zh_Hans: 是否使用全文检索
+          label:
+            en_US: UseFullTextRetrieval
+            ja_JP: UseFullTextRetrieval
+            pt_BR: UseFullTextRetrieval
+            zh_Hans: UseFullTextRetrieval
+          llm_description: Whether to use full text retrieval
+          max: null
+          min: null
+          name: use_full_text_retrieval
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Rerank factor for result reordering
+            ja_JP: Rerank factor for result reordering
+            pt_BR: Rerank factor for result reordering
+            zh_Hans: 结果重排序的重排因子
+          label:
+            en_US: RerankFactor
+            ja_JP: RerankFactor
+            pt_BR: RerankFactor
+            zh_Hans: RerankFactor
+          llm_description: Rerank factor for result reordering
+          max: null
+          min: null
+          name: rerank_factor
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Whether to enable knowledge graph enhancement
+            ja_JP: Whether to enable knowledge graph enhancement
+            pt_BR: Whether to enable knowledge graph enhancement
+            zh_Hans: 是否启用知识图谱增强
+          label:
+            en_US: GraphEnhance
+            ja_JP: GraphEnhance
+            pt_BR: GraphEnhance
+            zh_Hans: GraphEnhance
+          llm_description: Whether to enable knowledge graph enhancement
+          max: null
+          min: null
+          name: graph_enhance
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Prompt parameters for the chat model
+            ja_JP: Prompt parameters for the chat model
+            pt_BR: Prompt parameters for the chat model
+            zh_Hans: 对话模型的提示参数
+          label:
+            en_US: Prompt
+            ja_JP: Prompt
+            pt_BR: Prompt
+            zh_Hans: Prompt
+          llm_description: Prompt parameters for the chat model
+          max: null
+          min: null
+          name: prompt
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: System message to set the behavior of the assistant
+            ja_JP: System message to set the behavior of the assistant
+            pt_BR: System message to set the behavior of the assistant
+            zh_Hans: 设置助手行为的系统消息
+          label:
+            en_US: System
+            ja_JP: System
+            pt_BR: System
+            zh_Hans: System
+          llm_description: System message to set the behavior of the assistant
+          max: null
+          min: null
+          name: system
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Maximum number of tokens to generate
+            ja_JP: Maximum number of tokens to generate
+            pt_BR: Maximum number of tokens to generate
+            zh_Hans: 生成的最大token数量
+          label:
+            en_US: MaxTokens
+            ja_JP: MaxTokens
+            pt_BR: MaxTokens
+            zh_Hans: MaxTokens
+          llm_description: Maximum number of tokens to generate
+          max: null
+          min: null
+          name: max_tokens
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Presence penalty parameter for the model
+            ja_JP: Presence penalty parameter for the model
+            pt_BR: Presence penalty parameter for the model
+            zh_Hans: 模型的存在惩罚参数
+          label:
+            en_US: PresencePenalty
+            ja_JP: PresencePenalty
+            pt_BR: PresencePenalty
+            zh_Hans: PresencePenalty
+          llm_description: Presence penalty parameter for the model
+          max: null
+          min: null
+          name: presence_penalty
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Random seed for reproducibility
+            ja_JP: Random seed for reproducibility
+            pt_BR: Random seed for reproducibility
+            zh_Hans: 用于可重现性的随机种子
+          label:
+            en_US: Seed
+            ja_JP: Seed
+            pt_BR: Seed
+            zh_Hans: Seed
+          llm_description: Random seed for reproducibility
+          max: null
+          min: null
+          name: seed
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Temperature parameter for the model
+            ja_JP: Temperature parameter for the model
+            pt_BR: Temperature parameter for the model
+            zh_Hans: 模型的温度参数
+          label:
+            en_US: Temperature
+            ja_JP: Temperature
+            pt_BR: Temperature
+            zh_Hans: Temperature
+          llm_description: Temperature parameter for the model
+          max: null
+          min: null
+          name: temperature
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Top-p parameter for nucleus sampling
+            ja_JP: Top-p parameter for nucleus sampling
+            pt_BR: Top-p parameter for nucleus sampling
+            zh_Hans: 核采样的top-p参数
+          label:
+            en_US: TopP
+            ja_JP: TopP
+            pt_BR: TopP
+            zh_Hans: TopP
+          llm_description: Top-p parameter for nucleus sampling
+          max: null
+          min: null
+          name: top_p
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        params:
+          graph_enhance: ''
+          knowledgebase: ''
+          llm_model: ''
+          max_tokens: ''
+          presence_penalty: ''
+          prompt: ''
+          query: ''
+          rerank_factor: ''
+          seed: ''
+          system: ''
+          temperature: ''
+          top_k: ''
+          top_p: ''
+          use_full_text_retrieval: ''
+        plugin_id: aliyun-adbpg/adbpg-tool
+        plugin_unique_identifier: aliyun-adbpg/adbpg-tool:1.0.0@082ed21566198886d0e2a01e6af6d1224a8c7eabad6443f262d3cf13de1a173a
+        provider_icon: /console/api/workspaces/current/plugin/icon?tenant_id=05d1d48c-0f80-42c8-8015-c80e01680ca2&filename=d7ee9aed28bf1acdd6555d9a3033a940af889f843189d28ee655d445df589f1e.svg
+        provider_id: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_name: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_type: builtin
+        selected: false
+        title: 知识库问答
+        tool_configurations:
+          max_tokens:
+            type: constant
+            value: null
+          presence_penalty:
+            type: constant
+            value: null
+          prompt:
+            type: mixed
+            value: null
+          seed:
+            type: constant
+            value: null
+          system:
+            type: mixed
+            value: null
+          temperature:
+            type: constant
+            value: null
+          top_p:
+            type: constant
+            value: null
+        tool_description: 使用阿里云AnalyticDB for PostgreSQL进行知识库问答
+        tool_label: 知识库问答
+        tool_name: chatWithKnowledgeBaseStream
+        tool_node_version: '2'
+        tool_parameters:
+          graph_enhance:
+            type: constant
+            value: null
+          knowledgebase:
+            type: mixed
+            value: '{{#1767161620277.kb_name#}}'
+          llm_model:
+            type: mixed
+            value: qwen3-max
+          query:
+            type: mixed
+            value: '{{#sys.query#}}'
+          rerank_factor:
+            type: constant
+            value: 2
+          top_k:
+            type: constant
+            value: 10
+          use_full_text_retrieval:
+            type: constant
+            value: true
+        type: tool
+      height: 244
+      id: '1767689221245'
+      position:
+        x: 342
+        y: 0
+      positionAbsolute:
+        x: 342
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 271.46405902587435
+      y: 182.69039605017116
+      zoom: 1.0799079951181036
+  rag_pipeline_variables: []

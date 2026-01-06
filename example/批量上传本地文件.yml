@@ -1,0 +1,1808 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#E4FBCC'
+  mode: workflow
+  name: 批量上传本地文件
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: aliyun-adbpg/adbpg-tool:1.0.0@082ed21566198886d0e2a01e6af6d1224a8c7eabad6443f262d3cf13de1a173a
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1767073371334-source-1767073385295-target
+      source: '1767073371334'
+      sourceHandle: source
+      target: '1767073385295'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: tool
+        targetType: iteration
+      id: 1767073385295-source-1767073596269-target
+      source: '1767073385295'
+      sourceHandle: source
+      target: '1767073596269'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1767073596269'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1767073596269start-source-1767073660909-target
+      source: 1767073596269start
+      sourceHandle: source
+      target: '1767073660909'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1767073596269'
+        sourceType: tool
+        targetType: tool
+      id: 1767073660909-source-1767073666511-target
+      source: '1767073660909'
+      sourceHandle: source
+      target: '1767073666511'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: iteration
+      id: 1767073385295-fail-branch-1767073596269-target
+      source: '1767073385295'
+      sourceHandle: fail-branch
+      target: '1767073596269'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1767073596269-source-1767073798157-target
+      source: '1767073596269'
+      sourceHandle: source
+      target: '1767073798157'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: true
+        title: 用户输入
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: 本地文件
+          max_length: 10
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: local_files
+        - hint: ''
+          label: 知识库名
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: kb_name
+      height: 135
+      id: '1767073371334'
+      position:
+        x: 0
+        y: 141
+      positionAbsolute:
+        x: 0
+        y: 141
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_strategy: fail-branch
+        is_team_authorization: true
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The document collection name to create. Must comply with PostgreSQL
+              object name restrictions.
+            ja_JP: The document collection name to create. Must comply with PostgreSQL
+              object name restrictions.
+            pt_BR: The document collection name to create. Must comply with PostgreSQL
+              object name restrictions.
+            zh_Hans: 要创建的文档库名称，需符合 PostgreSQL 对象名限制
+          label:
+            en_US: KnowledgeBase
+            ja_JP: KnowledgeBase
+            pt_BR: KnowledgeBase
+            zh_Hans: KnowledgeBase
+          llm_description: The document collection name to create. Must comply with
+            PostgreSQL object name restrictions.
+          max: null
+          min: null
+          name: knowledgebase
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: false
+          form: llm
+          human_description:
+            en_US: 'Whether to enable knowledge graph construction. Default: false.'
+            ja_JP: 'Whether to enable knowledge graph construction. Default: false.'
+            pt_BR: 'Whether to enable knowledge graph construction. Default: false.'
+            zh_Hans: 是否开启构建知识图谱，默认值：false
+          label:
+            en_US: EnableGraph
+            ja_JP: EnableGraph
+            pt_BR: EnableGraph
+            zh_Hans: EnableGraph
+          llm_description: 'Whether to enable knowledge graph construction. Default:
+            false.'
+          max: null
+          min: null
+          name: enable_graph
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: ''
+          form: form
+          human_description:
+            en_US: LLM model for knowledge graph. Only effective when knowledge graph
+              is enabled.
+            ja_JP: LLM model for knowledge graph. Only effective when knowledge graph
+              is enabled.
+            pt_BR: LLM model for knowledge graph. Only effective when knowledge graph
+              is enabled.
+            zh_Hans: 知识图谱使用的LLM模型。仅当开启构建知识图谱时生效
+          label:
+            en_US: LLMModel
+            ja_JP: LLMModel
+            pt_BR: LLMModel
+            zh_Hans: LLMModel
+          llm_description: LLM model for knowledge graph. Only effective when knowledge
+            graph is enabled.
+          max: null
+          min: null
+          name: llmmodel
+          options:
+          - icon: ''
+            label:
+              en_US: None
+              ja_JP: None
+              pt_BR: None
+              zh_Hans: 无
+            value: ''
+          - icon: ''
+            label:
+              en_US: knowledge-extract-standard
+              ja_JP: knowledge-extract-standard
+              pt_BR: knowledge-extract-standard
+              zh_Hans: knowledge-extract-standard
+            value: knowledge-extract-standard
+          - icon: ''
+            label:
+              en_US: knowledge-extract-mini
+              ja_JP: knowledge-extract-mini
+              pt_BR: knowledge-extract-mini
+              zh_Hans: knowledge-extract-mini
+            value: knowledge-extract-mini
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: ''
+          form: form
+          human_description:
+            en_US: Language for knowledge graph construction. Only effective when
+              knowledge graph is enabled.
+            ja_JP: Language for knowledge graph construction. Only effective when
+              knowledge graph is enabled.
+            pt_BR: Language for knowledge graph construction. Only effective when
+              knowledge graph is enabled.
+            zh_Hans: 构建知识图谱使用的语言。仅当开启构建知识图谱时生效
+          label:
+            en_US: Language
+            ja_JP: Language
+            pt_BR: Language
+            zh_Hans: Language
+          llm_description: Language for knowledge graph construction. Only effective
+            when knowledge graph is enabled.
+          max: null
+          min: null
+          name: language
+          options:
+          - icon: ''
+            label:
+              en_US: None
+              ja_JP: None
+              pt_BR: None
+              zh_Hans: 无
+            value: ''
+          - icon: ''
+            label:
+              en_US: English
+              ja_JP: English
+              pt_BR: English
+              zh_Hans: 英语
+            value: English
+          - icon: ''
+            label:
+              en_US: Simplified Chinese
+              ja_JP: Simplified Chinese
+              pt_BR: Simplified Chinese
+              zh_Hans: 简体中文
+            value: Simplified Chinese
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Entity types separated by commas. Required when knowledge graph
+              is enabled. Example: Person,Location,Event'
+            ja_JP: 'Entity types separated by commas. Required when knowledge graph
+              is enabled. Example: Person,Location,Event'
+            pt_BR: 'Entity types separated by commas. Required when knowledge graph
+              is enabled. Example: Person,Location,Event'
+            zh_Hans: 实体类型，用逗号分隔。当开启构建知识图谱时必传。示例：人物,地点,事件
+          label:
+            en_US: EntityTypes
+            ja_JP: EntityTypes
+            pt_BR: EntityTypes
+            zh_Hans: EntityTypes
+          llm_description: Entity types separated by commas. Required when knowledge
+            graph is enabled.
+          max: null
+          min: null
+          name: entity_types
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 'Relationship types separated by commas. Required when knowledge
+              graph is enabled. Example: occurs,located_at,belongs_to'
+            ja_JP: 'Relationship types separated by commas. Required when knowledge
+              graph is enabled. Example: occurs,located_at,belongs_to'
+            pt_BR: 'Relationship types separated by commas. Required when knowledge
+              graph is enabled. Example: occurs,located_at,belongs_to'
+            zh_Hans: 关系类型，用逗号分隔。当开启构建知识图谱时必传。示例：发生,处于,从属
+          label:
+            en_US: RelationshipTypes
+            ja_JP: RelationshipTypes
+            pt_BR: RelationshipTypes
+            zh_Hans: RelationshipTypes
+          llm_description: Relationship types separated by commas. Required when knowledge
+            graph is enabled.
+          max: null
+          min: null
+          name: relationship_types
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: text-embedding-v3
+          form: form
+          human_description:
+            en_US: Vectorization model for text or image embeddings.
+            ja_JP: Vectorization model for text or image embeddings.
+            pt_BR: Vectorization model for text or image embeddings.
+            zh_Hans: 文本或图片向量化模型
+          label:
+            en_US: EmbeddingModel
+            ja_JP: EmbeddingModel
+            pt_BR: EmbeddingModel
+            zh_Hans: EmbeddingModel
+          llm_description: Vectorization model for text or image embeddings.
+          max: null
+          min: null
+          name: embedding_model
+          options:
+          - icon: ''
+            label:
+              en_US: text-embedding-v1 (1536 dim)
+              ja_JP: text-embedding-v1 (1536 dim)
+              pt_BR: text-embedding-v1 (1536 dim)
+              zh_Hans: text-embedding-v1 (1536维)
+            value: text-embedding-v1
+          - icon: ''
+            label:
+              en_US: text-embedding-v2 (1536 dim)
+              ja_JP: text-embedding-v2 (1536 dim)
+              pt_BR: text-embedding-v2 (1536 dim)
+              zh_Hans: text-embedding-v2 (1536维)
+            value: text-embedding-v2
+          - icon: ''
+            label:
+              en_US: text-embedding-v3 (1024/768/512 dim)
+              ja_JP: text-embedding-v3 (1024/768/512 dim)
+              pt_BR: text-embedding-v3 (1024/768/512 dim)
+              zh_Hans: text-embedding-v3 (1024/768/512维)
+            value: text-embedding-v3
+          - icon: ''
+            label:
+              en_US: text-embedding-v4 (1024 dim)
+              ja_JP: text-embedding-v4 (1024 dim)
+              pt_BR: text-embedding-v4 (1024 dim)
+              zh_Hans: text-embedding-v4 (1024/2048/1536/768/512/256/128/64维)
+            value: text-embedding-v4
+          - icon: ''
+            label:
+              en_US: text2vec (1024 dim)
+              ja_JP: text2vec (1024 dim)
+              pt_BR: text2vec (1024 dim)
+              zh_Hans: text2vec (1024维)
+            value: text2vec
+          - icon: ''
+            label:
+              en_US: m3e-base (768 dim)
+              ja_JP: m3e-base (768 dim)
+              pt_BR: m3e-base (768 dim)
+              zh_Hans: m3e-base (768维)
+            value: m3e-base
+          - icon: ''
+            label:
+              en_US: m3e-small (512 dim)
+              ja_JP: m3e-small (512 dim)
+              pt_BR: m3e-small (512 dim)
+              zh_Hans: m3e-small (512维)
+            value: m3e-small
+          - icon: ''
+            label:
+              en_US: clip-vit-b-32 (512 dim, image)
+              ja_JP: clip-vit-b-32 (512 dim, image)
+              pt_BR: clip-vit-b-32 (512 dim, image)
+              zh_Hans: clip-vit-b-32 (512维, 图片)
+            value: clip-vit-b-32
+          - icon: ''
+            label:
+              en_US: clip-vit-b-16 (512 dim, image)
+              ja_JP: clip-vit-b-16 (512 dim, image)
+              pt_BR: clip-vit-b-16 (512 dim, image)
+              zh_Hans: clip-vit-b-16 (512维, 图片)
+            value: clip-vit-b-16
+          - icon: ''
+            label:
+              en_US: clip-vit-l-14 (768 dim, image)
+              ja_JP: clip-vit-l-14 (768 dim, image)
+              pt_BR: clip-vit-l-14 (768 dim, image)
+              zh_Hans: clip-vit-l-14 (768维, 图片)
+            value: clip-vit-l-14
+          - icon: ''
+            label:
+              en_US: clip-vit-l-14-336px (768 dim, image)
+              ja_JP: clip-vit-l-14-336px (768 dim, image)
+              pt_BR: clip-vit-l-14-336px (768 dim, image)
+              zh_Hans: clip-vit-l-14-336px (768维, 图片)
+            value: clip-vit-l-14-336px
+          - icon: ''
+            label:
+              en_US: clip-rn50 (1024 dim, image)
+              ja_JP: clip-rn50 (1024 dim, image)
+              pt_BR: clip-rn50 (1024 dim, image)
+              zh_Hans: clip-rn50 (1024维, 图片)
+            value: clip-rn50
+          - icon: ''
+            label:
+              en_US: clip-rn101 (512 dim, image)
+              ja_JP: clip-rn101 (512 dim, image)
+              pt_BR: clip-rn101 (512 dim, image)
+              zh_Hans: clip-rn101 (512维, 图片)
+            value: clip-rn101
+          - icon: ''
+            label:
+              en_US: clip-rn50x4 (640 dim, image)
+              ja_JP: clip-rn50x4 (640 dim, image)
+              pt_BR: clip-rn50x4 (640 dim, image)
+              zh_Hans: clip-rn50x4 (640维, 图片)
+            value: clip-rn50x4
+          - icon: ''
+            label:
+              en_US: clip-rn50x16 (768 dim, image)
+              ja_JP: clip-rn50x16 (768 dim, image)
+              pt_BR: clip-rn50x16 (768 dim, image)
+              zh_Hans: clip-rn50x16 (768维, 图片)
+            value: clip-rn50x16
+          - icon: ''
+            label:
+              en_US: clip-rn50x64 (1024 dim, image)
+              ja_JP: clip-rn50x64 (1024 dim, image)
+              pt_BR: clip-rn50x64 (1024 dim, image)
+              zh_Hans: clip-rn50x64 (1024维, 图片)
+            value: clip-rn50x64
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Metadata for vector data, in MAP format JSON string. Key is field
+              name, value is data type.
+            ja_JP: Metadata for vector data, in MAP format JSON string. Key is field
+              name, value is data type.
+            pt_BR: Metadata for vector data, in MAP format JSON string. Key is field
+              name, value is data type.
+            zh_Hans: 向量数据的元信息，为 MAP 格式的 JSON 字符串。key 代表字段名，value 代表数据类型
+          label:
+            en_US: Metadata
+            ja_JP: Metadata
+            pt_BR: Metadata
+            zh_Hans: Metadata
+          llm_description: Metadata for vector data, in MAP format JSON string.
+          max: null
+          min: null
+          name: metadata
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Fields for full text retrieval, multiple fields separated by commas.
+              Fields must be defined in Metadata.
+            ja_JP: Fields for full text retrieval, multiple fields separated by commas.
+              Fields must be defined in Metadata.
+            pt_BR: Fields for full text retrieval, multiple fields separated by commas.
+              Fields must be defined in Metadata.
+            zh_Hans: 用于全文检索的字段，多个字段用英文逗号分隔，且字段必须属于 Metadata 里定义的 key
+          label:
+            en_US: FullTextRetrievalFields
+            ja_JP: FullTextRetrievalFields
+            pt_BR: FullTextRetrievalFields
+            zh_Hans: FullTextRetrievalFields
+          llm_description: Fields for full text retrieval, multiple fields separated
+            by commas.
+          max: null
+          min: null
+          name: full_text_retrieval_fields
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'Tokenizer for full text retrieval. Default: zh_cn.'
+            ja_JP: 'Tokenizer for full text retrieval. Default: zh_cn.'
+            pt_BR: 'Tokenizer for full text retrieval. Default: zh_cn.'
+            zh_Hans: 用于全文检索的分词器，默认为 zh_cn
+          label:
+            en_US: Parser
+            ja_JP: Parser
+            pt_BR: Parser
+            zh_Hans: Parser
+          llm_description: 'Tokenizer for full text retrieval. Default: zh_cn.'
+          max: null
+          min: null
+          name: parser
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: cosine
+          form: form
+          human_description:
+            en_US: Vector index distance method.
+            ja_JP: Vector index distance method.
+            pt_BR: Vector index distance method.
+            zh_Hans: 向量索引的距离计算方法
+          label:
+            en_US: Metrics
+            ja_JP: Metrics
+            pt_BR: Metrics
+            zh_Hans: Metrics
+          llm_description: Vector index distance method.
+          max: null
+          min: null
+          name: metrics
+          options:
+          - icon: ''
+            label:
+              en_US: cosine (Cosine Similarity)
+              ja_JP: cosine (Cosine Similarity)
+              pt_BR: cosine (Cosine Similarity)
+              zh_Hans: cosine (余弦相似度)
+            value: cosine
+          - icon: ''
+            label:
+              en_US: l2 (Euclidean Distance)
+              ja_JP: l2 (Euclidean Distance)
+              pt_BR: l2 (Euclidean Distance)
+              zh_Hans: l2 (欧氏距离)
+            value: l2
+          - icon: ''
+            label:
+              en_US: ip (Inner Product)
+              ja_JP: ip (Inner Product)
+              pt_BR: ip (Inner Product)
+              zh_Hans: ip (点积距离)
+            value: ip
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Maximum number of neighbors in HNSW algorithm. Auto-set based on
+              vector dimension, usually no need to set manually.
+            ja_JP: Maximum number of neighbors in HNSW algorithm. Auto-set based on
+              vector dimension, usually no need to set manually.
+            pt_BR: Maximum number of neighbors in HNSW algorithm. Auto-set based on
+              vector dimension, usually no need to set manually.
+            zh_Hans: HNSW 算法中的最大邻居数。接口会根据向量维度自动设置，一般不需要手动设置
+          label:
+            en_US: HnswM
+            ja_JP: HnswM
+            pt_BR: HnswM
+            zh_Hans: HnswM
+          llm_description: Maximum number of neighbors in HNSW algorithm.
+          max: null
+          min: null
+          name: hnsw_m
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'Candidate set size when building HNSW index. Range: 4-1000, default:
+              64. Only for version 7.0, must be >= 2*HNSW_M.'
+            ja_JP: 'Candidate set size when building HNSW index. Range: 4-1000, default:
+              64. Only for version 7.0, must be >= 2*HNSW_M.'
+            pt_BR: 'Candidate set size when building HNSW index. Range: 4-1000, default:
+              64. Only for version 7.0, must be >= 2*HNSW_M.'
+            zh_Hans: HNSW 算法构建索引时的候选集大小。取值范围：4-1000，默认值 64。仅 7.0 版需要，且取值需 >= 2*HNSW_M
+          label:
+            en_US: HnswEfConstruction
+            ja_JP: HnswEfConstruction
+            pt_BR: HnswEfConstruction
+            zh_Hans: HnswEfConstruction
+          llm_description: 'Candidate set size when building HNSW index. Default:
+            64.'
+          max: null
+          min: null
+          name: hnsw_ef_construction
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: true
+          form: form
+          human_description:
+            en_US: Whether to enable PQ (Product Quantization) algorithm acceleration.
+              Recommended when data volume > 500k.
+            ja_JP: Whether to enable PQ (Product Quantization) algorithm acceleration.
+              Recommended when data volume > 500k.
+            pt_BR: Whether to enable PQ (Product Quantization) algorithm acceleration.
+              Recommended when data volume > 500k.
+            zh_Hans: 索引是否开启 PQ 算法加速，数据量大于 50w 时建议开启
+          label:
+            en_US: PqEnable
+            ja_JP: PqEnable
+            pt_BR: PqEnable
+            zh_Hans: PqEnable
+          llm_description: Whether to enable PQ algorithm acceleration.
+          max: null
+          min: null
+          name: pq_enable
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'Whether to use mmap to build HNSW index. 0: default segment-page
+              storage (supports delete/update), 1: mmap mode (faster upload, no delete/update).
+              Only version 6.0 supports.'
+            ja_JP: 'Whether to use mmap to build HNSW index. 0: default segment-page
+              storage (supports delete/update), 1: mmap mode (faster upload, no delete/update).
+              Only version 6.0 supports.'
+            pt_BR: 'Whether to use mmap to build HNSW index. 0: default segment-page
+              storage (supports delete/update), 1: mmap mode (faster upload, no delete/update).
+              Only version 6.0 supports.'
+            zh_Hans: 是否使用 mmap 构建 HNSW 索引。0：默认段页式存储（支持删除更新），1：mmap 模式（上传更快，不支持删除更新）。仅
+              6.0 版本支持
+          label:
+            en_US: ExternalStorage
+            ja_JP: ExternalStorage
+            pt_BR: ExternalStorage
+            zh_Hans: ExternalStorage
+          llm_description: Whether to use mmap to build HNSW index. Only version 6.0
+            supports.
+          max: null
+          min: null
+          name: external_storage
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Scalar index fields, multiple fields separated by commas. Fields
+              must be defined in Metadata.
+            ja_JP: Scalar index fields, multiple fields separated by commas. Fields
+              must be defined in Metadata.
+            pt_BR: Scalar index fields, multiple fields separated by commas. Fields
+              must be defined in Metadata.
+            zh_Hans: 标量索引字段，多个字段用英文逗号分隔，且字段必须属于 Metadata 里定义的 key
+          label:
+            en_US: MetadataIndices
+            ja_JP: MetadataIndices
+            pt_BR: MetadataIndices
+            zh_Hans: MetadataIndices
+          llm_description: Scalar index fields, multiple fields separated by commas.
+          max: null
+          min: null
+          name: metadata_indices
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          embedding_model: ''
+          enable_graph: ''
+          entity_types: ''
+          external_storage: ''
+          full_text_retrieval_fields: ''
+          hnsw_ef_construction: ''
+          hnsw_m: ''
+          knowledgebase: ''
+          language: ''
+          llmmodel: ''
+          metadata: ''
+          metadata_indices: ''
+          metrics: ''
+          parser: ''
+          pq_enable: ''
+          relationship_types: ''
+        plugin_id: aliyun-adbpg/adbpg-tool
+        plugin_unique_identifier: aliyun-adbpg/adbpg-tool:1.0.0@870f71519af2ed6b86035b7923454b8c990bbe02da3366a2caeedea5b5fccb53
+        provider_id: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_name: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_type: builtin
+        selected: false
+        title: 创建知识库
+        tool_configurations:
+          embedding_model:
+            type: constant
+            value: text-embedding-v4
+          external_storage:
+            type: constant
+            value: null
+          full_text_retrieval_fields:
+            type: mixed
+            value: null
+          hnsw_ef_construction:
+            type: constant
+            value: null
+          hnsw_m:
+            type: constant
+            value: null
+          language:
+            type: constant
+            value: ''
+          llmmodel:
+            type: constant
+            value: ''
+          metadata:
+            type: mixed
+            value: null
+          metadata_indices:
+            type: mixed
+            value: null
+          metrics:
+            type: constant
+            value: cosine
+          parser:
+            type: mixed
+            value: null
+          pq_enable:
+            type: constant
+            value: true
+        tool_description: 创建你的阿里云AnalyticDB for PostgreSQL知识库工具
+        tool_label: 创建知识库
+        tool_name: createDocumentCollection
+        tool_node_version: '2'
+        tool_parameters:
+          enable_graph:
+            type: constant
+            value: false
+          entity_types:
+            type: mixed
+            value: null
+          knowledgebase:
+            type: mixed
+            value: '{{#1767073371334.kb_name#}}'
+          relationship_types:
+            type: mixed
+            value: null
+        type: tool
+      height: 410
+      id: '1767073385295'
+      position:
+        x: 342
+        y: 4
+      positionAbsolute:
+        x: 342
+        y: 4
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        error_handle_mode: terminated
+        flatten_output: true
+        height: 416
+        is_parallel: true
+        iterator_input_type: array[file]
+        iterator_selector:
+        - '1767073371334'
+        - local_files
+        output_selector:
+        - '1767073666511'
+        - json
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1767073596269start
+        title: 迭代
+        type: iteration
+        width: 808
+      height: 416
+      id: '1767073596269'
+      position:
+        x: 704
+        y: 0
+      positionAbsolute:
+        x: 704
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 808
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1767073596269start
+      parentId: '1767073596269'
+      position:
+        x: 60
+        y: 184
+      positionAbsolute:
+        x: 764
+        y: 184
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1767073596269'
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The document collection name
+            ja_JP: The document collection name
+            pt_BR: The document collection name
+            zh_Hans: 文档库名称
+          label:
+            en_US: KnowledgeBase
+            ja_JP: KnowledgeBase
+            pt_BR: KnowledgeBase
+            zh_Hans: KnowledgeBase
+          llm_description: The document collection name
+          max: null
+          min: null
+          name: knowledgebase
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The name of the file to upload
+            ja_JP: The name of the file to upload
+            pt_BR: The name of the file to upload
+            zh_Hans: 要上传的文件名称
+          label:
+            en_US: FileName
+            ja_JP: FileName
+            pt_BR: FileName
+            zh_Hans: FileName
+          llm_description: The name of the file to upload
+          max: null
+          min: null
+          name: filename
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The URL or local path of the file to upload
+            ja_JP: The URL or local path of the file to upload
+            pt_BR: The URL or local path of the file to upload
+            zh_Hans: 要上传的文件URL或本地路径
+          label:
+            en_US: FileUrl
+            ja_JP: FileUrl
+            pt_BR: FileUrl
+            zh_Hans: FileUrl
+          llm_description: The URL or local path of the file to upload
+          max: null
+          min: null
+          name: fileurl
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The size of each chunk for text splitting
+            ja_JP: The size of each chunk for text splitting
+            pt_BR: The size of each chunk for text splitting
+            zh_Hans: 文本切分的块大小
+          label:
+            en_US: ChunkSize
+            ja_JP: ChunkSize
+            pt_BR: ChunkSize
+            zh_Hans: ChunkSize
+          llm_description: The size of each chunk for text splitting
+          max: null
+          min: null
+          name: chunksize
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: ''
+          form: form
+          human_description:
+            en_US: The document loader to use for parsing files
+            ja_JP: The document loader to use for parsing files
+            pt_BR: The document loader to use for parsing files
+            zh_Hans: 用于解析文件的文档加载器
+          label:
+            en_US: DocumentLoaderName
+            ja_JP: DocumentLoaderName
+            pt_BR: DocumentLoaderName
+            zh_Hans: DocumentLoaderName
+          llm_description: The document loader to use for parsing files
+          max: null
+          min: null
+          name: document_loader_name
+          options:
+          - icon: ''
+            label:
+              en_US: Auto
+              ja_JP: Auto
+              pt_BR: Auto
+              zh_Hans: Auto
+            value: ''
+          - icon: ''
+            label:
+              en_US: ADBPGLoader (Paid, first 3000 pages free)
+              ja_JP: ADBPGLoader (Paid, first 3000 pages free)
+              pt_BR: ADBPGLoader (Paid, first 3000 pages free)
+              zh_Hans: ADBPGLoader (收费，前3000页免费)
+            value: ADBPGLoader
+          - icon: ''
+            label:
+              en_US: UnstructuredHTMLLoader (.html)
+              ja_JP: UnstructuredHTMLLoader (.html)
+              pt_BR: UnstructuredHTMLLoader (.html)
+              zh_Hans: UnstructuredHTMLLoader (.html)
+            value: UnstructuredHTMLLoader
+          - icon: ''
+            label:
+              en_US: UnstructuredMarkdownLoader (.md)
+              ja_JP: UnstructuredMarkdownLoader (.md)
+              pt_BR: UnstructuredMarkdownLoader (.md)
+              zh_Hans: UnstructuredMarkdownLoader (.md)
+            value: UnstructuredMarkdownLoader
+          - icon: ''
+            label:
+              en_US: PyMuPDFLoader (.pdf)
+              ja_JP: PyMuPDFLoader (.pdf)
+              pt_BR: PyMuPDFLoader (.pdf)
+              zh_Hans: PyMuPDFLoader (.pdf)
+            value: PyMuPDFLoader
+          - icon: ''
+            label:
+              en_US: PyPDFLoader (.pdf)
+              ja_JP: PyPDFLoader (.pdf)
+              pt_BR: PyPDFLoader (.pdf)
+              zh_Hans: PyPDFLoader (.pdf)
+            value: PyPDFLoader
+          - icon: ''
+            label:
+              en_US: RapidOCRPDFLoader (.pdf)
+              ja_JP: RapidOCRPDFLoader (.pdf)
+              pt_BR: RapidOCRPDFLoader (.pdf)
+              zh_Hans: RapidOCRPDFLoader (.pdf)
+            value: RapidOCRPDFLoader
+          - icon: ''
+            label:
+              en_US: PDFWithImageRefLoader (.pdf with image)
+              ja_JP: PDFWithImageRefLoader (.pdf with image)
+              pt_BR: PDFWithImageRefLoader (.pdf with image)
+              zh_Hans: PDFWithImageRefLoader (.pdf 图文关联)
+            value: PDFWithImageRefLoader
+          - icon: ''
+            label:
+              en_US: JSONLoader (.json)
+              ja_JP: JSONLoader (.json)
+              pt_BR: JSONLoader (.json)
+              zh_Hans: JSONLoader (.json)
+            value: JSONLoader
+          - icon: ''
+            label:
+              en_US: CSVLoader (.csv)
+              ja_JP: CSVLoader (.csv)
+              pt_BR: CSVLoader (.csv)
+              zh_Hans: CSVLoader (.csv)
+            value: CSVLoader
+          - icon: ''
+            label:
+              en_US: RapidOCRLoader (.png/.jpg/.jpeg/.bmp)
+              ja_JP: RapidOCRLoader (.png/.jpg/.jpeg/.bmp)
+              pt_BR: RapidOCRLoader (.png/.jpg/.jpeg/.bmp)
+              zh_Hans: RapidOCRLoader (.png/.jpg/.jpeg/.bmp)
+            value: RapidOCRLoader
+          - icon: ''
+            label:
+              en_US: UnstructuredFileLoader (.eml/.msg/.rst/.txt/.docx/.epub/.odt/.pptx/.tsv)
+              ja_JP: UnstructuredFileLoader (.eml/.msg/.rst/.txt/.docx/.epub/.odt/.pptx/.tsv)
+              pt_BR: UnstructuredFileLoader (.eml/.msg/.rst/.txt/.docx/.epub/.odt/.pptx/.tsv)
+              zh_Hans: UnstructuredFileLoader (.eml/.msg/.rst/.txt/.docx/.epub/.odt/.pptx/.tsv)
+            value: UnstructuredFileLoader
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Metadata for the document in JSON string format
+            ja_JP: Metadata for the document in JSON string format
+            pt_BR: Metadata for the document in JSON string format
+            zh_Hans: 文档的元信息，JSON字符串格式
+          label:
+            en_US: Metadata
+            ja_JP: Metadata
+            pt_BR: Metadata
+            zh_Hans: Metadata
+          llm_description: Metadata for the document in JSON string format
+          max: null
+          min: null
+          name: metadata
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: The overlap size between chunks
+            ja_JP: The overlap size between chunks
+            pt_BR: The overlap size between chunks
+            zh_Hans: 块之间的重叠大小
+          label:
+            en_US: ChunkOverlap
+            ja_JP: ChunkOverlap
+            pt_BR: ChunkOverlap
+            zh_Hans: ChunkOverlap
+          llm_description: The overlap size between chunks
+          max: null
+          min: null
+          name: chunk_overlap
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: 'JSON array of separators for text splitting. Example: ["\n\n",
+              "\n", " "]'
+            ja_JP: 'JSON array of separators for text splitting. Example: ["\n\n",
+              "\n", " "]'
+            pt_BR: 'JSON array of separators for text splitting. Example: ["\n\n",
+              "\n", " "]'
+            zh_Hans: 文本切分的分隔符列表，JSON数组格式。示例：["\n\n", "\n", " "]
+          label:
+            en_US: Separators
+            ja_JP: Separators
+            pt_BR: Separators
+            zh_Hans: Separators
+          llm_description: JSON array of separators for text splitting
+          max: null
+          min: null
+          name: separators
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Whether to perform a dry run without actual upload
+            ja_JP: Whether to perform a dry run without actual upload
+            pt_BR: Whether to perform a dry run without actual upload
+            zh_Hans: 是否执行试运行而不实际上传
+          label:
+            en_US: DryRun
+            ja_JP: DryRun
+            pt_BR: DryRun
+            zh_Hans: DryRun
+          llm_description: Whether to perform a dry run without actual upload
+          max: null
+          min: null
+          name: dry_run
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Whether to enhance Chinese title recognition
+            ja_JP: Whether to enhance Chinese title recognition
+            pt_BR: Whether to enhance Chinese title recognition
+            zh_Hans: 是否增强中文标题识别
+          label:
+            en_US: ZhTitleEnhance
+            ja_JP: ZhTitleEnhance
+            pt_BR: ZhTitleEnhance
+            zh_Hans: ZhTitleEnhance
+          llm_description: Whether to enhance Chinese title recognition
+          max: null
+          min: null
+          name: zh_title_enhance
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: ''
+          form: form
+          human_description:
+            en_US: The text splitter algorithm to use
+            ja_JP: The text splitter algorithm to use
+            pt_BR: The text splitter algorithm to use
+            zh_Hans: 使用的文本切分算法
+          label:
+            en_US: TextSplitterName
+            ja_JP: TextSplitterName
+            pt_BR: TextSplitterName
+            zh_Hans: TextSplitterName
+          llm_description: The text splitter algorithm to use
+          max: null
+          min: null
+          name: text_splitter_name
+          options:
+          - icon: ''
+            label:
+              en_US: Auto
+              ja_JP: Auto
+              pt_BR: Auto
+              zh_Hans: Auto
+            value: ''
+          - icon: ''
+            label:
+              en_US: LLMSplitter (LLM-based, ADBPGLoader only)
+              ja_JP: LLMSplitter (LLM-based, ADBPGLoader only)
+              pt_BR: LLMSplitter (LLM-based, ADBPGLoader only)
+              zh_Hans: LLMSplitter (LLM切分，仅ADBPGLoader可用)
+            value: LLMSplitter
+          - icon: ''
+            label:
+              en_US: ChineseRecursiveTextSplitter (Chinese optimized)
+              ja_JP: ChineseRecursiveTextSplitter (Chinese optimized)
+              pt_BR: ChineseRecursiveTextSplitter (Chinese optimized)
+              zh_Hans: ChineseRecursiveTextSplitter (中文优化)
+            value: ChineseRecursiveTextSplitter
+          - icon: ''
+            label:
+              en_US: RecursiveCharacterTextSplitter (Multi-language code)
+              ja_JP: RecursiveCharacterTextSplitter (Multi-language code)
+              pt_BR: RecursiveCharacterTextSplitter (Multi-language code)
+              zh_Hans: RecursiveCharacterTextSplitter (多语言代码)
+            value: RecursiveCharacterTextSplitter
+          - icon: ''
+            label:
+              en_US: SpacyTextSplitter (Better segmentation)
+              ja_JP: SpacyTextSplitter (Better segmentation)
+              pt_BR: SpacyTextSplitter (Better segmentation)
+              zh_Hans: SpacyTextSplitter (更好的分割效果)
+            value: SpacyTextSplitter
+          - icon: ''
+            label:
+              en_US: MarkdownHeaderTextSplitter (Markdown)
+              ja_JP: MarkdownHeaderTextSplitter (Markdown)
+              pt_BR: MarkdownHeaderTextSplitter (Markdown)
+              zh_Hans: MarkdownHeaderTextSplitter (Markdown文档)
+            value: MarkdownHeaderTextSplitter
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: Whether to enable vision-language enhancement
+            ja_JP: Whether to enable vision-language enhancement
+            pt_BR: Whether to enable vision-language enhancement
+            zh_Hans: 是否启用视觉语言增强
+          label:
+            en_US: VlEnhance
+            ja_JP: VlEnhance
+            pt_BR: VlEnhance
+            zh_Hans: VlEnhance
+          llm_description: Whether to enable vision-language enhancement
+          max: null
+          min: null
+          name: vl_enhance
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        - auto_generate: null
+          default: ''
+          form: form
+          human_description:
+            en_US: The LLM model for LLMSplitter
+            ja_JP: The LLM model for LLMSplitter
+            pt_BR: The LLM model for LLMSplitter
+            zh_Hans: LLMSplitter使用的大语言模型
+          label:
+            en_US: SplitterModel
+            ja_JP: SplitterModel
+            pt_BR: SplitterModel
+            zh_Hans: SplitterModel
+          llm_description: The LLM model for LLMSplitter
+          max: null
+          min: null
+          name: splitter_model
+          options:
+          - icon: ''
+            label:
+              en_US: Auto
+              ja_JP: Auto
+              pt_BR: Auto
+              zh_Hans: Auto
+            value: ''
+          - icon: ''
+            label:
+              en_US: qwq-plus
+              ja_JP: qwq-plus
+              pt_BR: qwq-plus
+              zh_Hans: qwq-plus
+            value: qwq-plus
+          - icon: ''
+            label:
+              en_US: qwq-plus-latest
+              ja_JP: qwq-plus-latest
+              pt_BR: qwq-plus-latest
+              zh_Hans: qwq-plus-latest
+            value: qwq-plus-latest
+          - icon: ''
+            label:
+              en_US: qwen-max
+              ja_JP: qwen-max
+              pt_BR: qwen-max
+              zh_Hans: qwen-max
+            value: qwen-max
+          - icon: ''
+            label:
+              en_US: qwen-max-latest
+              ja_JP: qwen-max-latest
+              pt_BR: qwen-max-latest
+              zh_Hans: qwen-max-latest
+            value: qwen-max-latest
+          - icon: ''
+            label:
+              en_US: qwen-plus
+              ja_JP: qwen-plus
+              pt_BR: qwen-plus
+              zh_Hans: qwen-plus
+            value: qwen-plus
+          - icon: ''
+            label:
+              en_US: qwen-plus-latest
+              ja_JP: qwen-plus-latest
+              pt_BR: qwen-plus-latest
+              zh_Hans: qwen-plus-latest
+            value: qwen-plus-latest
+          - icon: ''
+            label:
+              en_US: qwen-turbo
+              ja_JP: qwen-turbo
+              pt_BR: qwen-turbo
+              zh_Hans: qwen-turbo
+            value: qwen-turbo
+          - icon: ''
+            label:
+              en_US: qwen-turbo-latest
+              ja_JP: qwen-turbo-latest
+              pt_BR: qwen-turbo-latest
+              zh_Hans: qwen-turbo-latest
+            value: qwen-turbo-latest
+          - icon: ''
+            label:
+              en_US: qwen3-235b-a22b
+              ja_JP: qwen3-235b-a22b
+              pt_BR: qwen3-235b-a22b
+              zh_Hans: qwen3-235b-a22b
+            value: qwen3-235b-a22b
+          - icon: ''
+            label:
+              en_US: qwen3-32b
+              ja_JP: qwen3-32b
+              pt_BR: qwen3-32b
+              zh_Hans: qwen3-32b
+            value: qwen3-32b
+          - icon: ''
+            label:
+              en_US: qwen3-30b-a3b
+              ja_JP: qwen3-30b-a3b
+              pt_BR: qwen3-30b-a3b
+              zh_Hans: qwen3-30b-a3b
+            value: qwen3-30b-a3b
+          - icon: ''
+            label:
+              en_US: qwen3-14b
+              ja_JP: qwen3-14b
+              pt_BR: qwen3-14b
+              zh_Hans: qwen3-14b
+            value: qwen3-14b
+          - icon: ''
+            label:
+              en_US: qwen3-8b
+              ja_JP: qwen3-8b
+              pt_BR: qwen3-8b
+              zh_Hans: qwen3-8b
+            value: qwen3-8b
+          - icon: ''
+            label:
+              en_US: qwen3-4b
+              ja_JP: qwen3-4b
+              pt_BR: qwen3-4b
+              zh_Hans: qwen3-4b
+            value: qwen3-4b
+          - icon: ''
+            label:
+              en_US: qwen3-1.7b
+              ja_JP: qwen3-1.7b
+              pt_BR: qwen3-1.7b
+              zh_Hans: qwen3-1.7b
+            value: qwen3-1.7b
+          - icon: ''
+            label:
+              en_US: qwen3-0.6b
+              ja_JP: qwen3-0.6b
+              pt_BR: qwen3-0.6b
+              zh_Hans: qwen3-0.6b
+            value: qwen3-0.6b
+          - icon: ''
+            label:
+              en_US: qwq-32b
+              ja_JP: qwq-32b
+              pt_BR: qwq-32b
+              zh_Hans: qwq-32b
+            value: qwq-32b
+          - icon: ''
+            label:
+              en_US: qwen2.5-14b-instruct-1m
+              ja_JP: qwen2.5-14b-instruct-1m
+              pt_BR: qwen2.5-14b-instruct-1m
+              zh_Hans: qwen2.5-14b-instruct-1m
+            value: qwen2.5-14b-instruct-1m
+          - icon: ''
+            label:
+              en_US: qwen2.5-7b-instruct-1m
+              ja_JP: qwen2.5-7b-instruct-1m
+              pt_BR: qwen2.5-7b-instruct-1m
+              zh_Hans: qwen2.5-7b-instruct-1m
+            value: qwen2.5-7b-instruct-1m
+          - icon: ''
+            label:
+              en_US: qwen2.5-72b-instruct
+              ja_JP: qwen2.5-72b-instruct
+              pt_BR: qwen2.5-72b-instruct
+              zh_Hans: qwen2.5-72b-instruct
+            value: qwen2.5-72b-instruct
+          - icon: ''
+            label:
+              en_US: qwen2.5-32b-instruct
+              ja_JP: qwen2.5-32b-instruct
+              pt_BR: qwen2.5-32b-instruct
+              zh_Hans: qwen2.5-32b-instruct
+            value: qwen2.5-32b-instruct
+          - icon: ''
+            label:
+              en_US: qwen2.5-14b-instruct
+              ja_JP: qwen2.5-14b-instruct
+              pt_BR: qwen2.5-14b-instruct
+              zh_Hans: qwen2.5-14b-instruct
+            value: qwen2.5-14b-instruct
+          - icon: ''
+            label:
+              en_US: qwen2.5-7b-instruct
+              ja_JP: qwen2.5-7b-instruct
+              pt_BR: qwen2.5-7b-instruct
+              zh_Hans: qwen2.5-7b-instruct
+            value: qwen2.5-7b-instruct
+          - icon: ''
+            label:
+              en_US: qwen2.5-3b-instruct
+              ja_JP: qwen2.5-3b-instruct
+              pt_BR: qwen2.5-3b-instruct
+              zh_Hans: qwen2.5-3b-instruct
+            value: qwen2.5-3b-instruct
+          - icon: ''
+            label:
+              en_US: qwen2.5-1.5b-instruct
+              ja_JP: qwen2.5-1.5b-instruct
+              pt_BR: qwen2.5-1.5b-instruct
+              zh_Hans: qwen2.5-1.5b-instruct
+            value: qwen2.5-1.5b-instruct
+          - icon: ''
+            label:
+              en_US: qwen2.5-0.5b-instruct
+              ja_JP: qwen2.5-0.5b-instruct
+              pt_BR: qwen2.5-0.5b-instruct
+              zh_Hans: qwen2.5-0.5b-instruct
+            value: qwen2.5-0.5b-instruct
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          chunk_overlap: ''
+          chunksize: ''
+          document_loader_name: ''
+          dry_run: ''
+          filename: ''
+          fileurl: ''
+          knowledgebase: ''
+          metadata: ''
+          separators: ''
+          splitter_model: ''
+          text_splitter_name: ''
+          vl_enhance: ''
+          zh_title_enhance: ''
+        plugin_id: aliyun-adbpg/adbpg-tool
+        plugin_unique_identifier: aliyun-adbpg/adbpg-tool:1.0.0@870f71519af2ed6b86035b7923454b8c990bbe02da3366a2caeedea5b5fccb53
+        provider_id: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_name: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_type: builtin
+        selected: false
+        title: 文档上传
+        tool_configurations:
+          chunk_overlap:
+            type: constant
+            value: null
+          document_loader_name:
+            type: constant
+            value: ADBPGLoader
+          dry_run:
+            type: constant
+            value: null
+          metadata:
+            type: mixed
+            value: null
+          separators:
+            type: mixed
+            value: null
+          splitter_model:
+            type: constant
+            value: ''
+          text_splitter_name:
+            type: constant
+            value: ''
+          vl_enhance:
+            type: constant
+            value: null
+          zh_title_enhance:
+            type: constant
+            value: null
+        tool_description: 上传文档到你的阿里云AnalyticDB for PostgreSQL知识库
+        tool_label: 文档上传
+        tool_name: uploadDocumentAsync
+        tool_node_version: '2'
+        tool_parameters:
+          chunksize:
+            type: constant
+            value: null
+          filename:
+            type: mixed
+            value: '{{#1767073596269.item.name#}}'
+          fileurl:
+            type: mixed
+            value: '{{#1767073596269.item.url#}}'
+          knowledgebase:
+            type: mixed
+            value: '{{#1767073371334.kb_name#}}'
+        type: tool
+      height: 296
+      id: '1767073660909'
+      parentId: '1767073596269'
+      position:
+        x: 184
+        y: 60
+      positionAbsolute:
+        x: 888
+        y: 60
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1767073596269'
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The document collection name
+            ja_JP: The document collection name
+            pt_BR: The document collection name
+            zh_Hans: 文档库名称
+          label:
+            en_US: KnowledgeBase
+            ja_JP: KnowledgeBase
+            pt_BR: KnowledgeBase
+            zh_Hans: KnowledgeBase
+          llm_description: The document collection name
+          max: null
+          min: null
+          name: knowledgebase
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: The job ID of the upload task
+            ja_JP: The job ID of the upload task
+            pt_BR: The job ID of the upload task
+            zh_Hans: 上传任务的作业ID
+          label:
+            en_US: JobId
+            ja_JP: JobId
+            pt_BR: JobId
+            zh_Hans: JobId
+          llm_description: The job ID of the upload task
+          max: null
+          min: null
+          name: jobid
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: false
+          form: form
+          human_description:
+            en_US: Whether to wait until the job is finished (poll every 3 seconds,
+              timeout 30 minutes)
+            ja_JP: Whether to wait until the job is finished (poll every 3 seconds,
+              timeout 30 minutes)
+            pt_BR: Whether to wait until the job is finished (poll every 3 seconds,
+              timeout 30 minutes)
+            zh_Hans: 是否等待任务完成（每3秒轮询一次，超时30分钟）
+          label:
+            en_US: WaitUntilFinish
+            ja_JP: WaitUntilFinish
+            pt_BR: WaitUntilFinish
+            zh_Hans: WaitUntilFinish
+          llm_description: Whether to wait until the job is finished
+          max: null
+          min: null
+          name: wait_until_finish
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: boolean
+        params:
+          jobid: ''
+          knowledgebase: ''
+          wait_until_finish: ''
+        plugin_id: aliyun-adbpg/adbpg-tool
+        plugin_unique_identifier: aliyun-adbpg/adbpg-tool:1.0.0@870f71519af2ed6b86035b7923454b8c990bbe02da3366a2caeedea5b5fccb53
+        provider_id: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_name: aliyun-adbpg/adbpg-tool/adbpg-tools
+        provider_type: builtin
+        selected: false
+        title: 查询文档上传任务
+        tool_configurations:
+          wait_until_finish:
+            type: constant
+            value: true
+        tool_description: 查询阿里云AnalyticDB for PostgreSQL中的文档上传任务状态
+        tool_label: 查询文档上传任务
+        tool_name: getUploadDocumentJob
+        tool_node_version: '2'
+        tool_parameters:
+          jobid:
+            type: mixed
+            value: '{{#1767073660909.JobId#}}'
+          knowledgebase:
+            type: mixed
+            value: '{{#1767073371334.kb_name#}}'
+        type: tool
+      height: 88
+      id: '1767073666511'
+      parentId: '1767073596269'
+      position:
+        x: 506
+        y: 164
+      positionAbsolute:
+        x: 1210
+        y: 164
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 1002
+    - data:
+        outputs:
+        - value_selector:
+          - '1767073596269'
+          - output
+          value_type: array[string]
+          variable: output
+        selected: false
+        title: 输出
+        type: end
+      height: 88
+      id: '1767073798157'
+      position:
+        x: 1612
+        y: 164
+      positionAbsolute:
+        x: 1612
+        y: 164
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: 742.8312801971402
+      y: 141.18921308771218
+      zoom: 0.7635133986167684
+  rag_pipeline_variables: []
