@@ -157,8 +157,45 @@ class AdbpgLargeLanguageModel(LargeLanguageModel):
             "stop": stop,  # stop is supported by API
         }
 
-        # Get streaming response
-        response = api_helper.chat_stream(**params)
+        # Get streaming response with sliding window retry mechanism
+        # If request is too long and rejected by gateway, gradually remove earlier messages
+        # Keep at least the last 2 messages (user and assistant)
+        retry_count = 0
+        response = None
+        last_exception = None
+        
+        while True:
+            try:
+                response = api_helper.chat_stream(**params)
+                break  # Success, exit retry loop
+            except Exception as ex:
+                last_exception = ex
+                # Check if messages can be reduced (must keep at least 2 messages)
+                if len(params["messages"]) <= 2:
+                    # Already at minimum, cannot reduce further, re-raise the exception
+                    raise ex
+                
+                # Log the exception and attempt to reduce messages
+                logger.warning(
+                    f"Chat stream request failed (attempt {retry_count + 1}): {str(ex)}. "
+                    f"Current message count: {len(params['messages'])}, "
+                    f"attempting to reduce messages using sliding window."
+                )
+                
+                # Remove messages from the beginning, keeping the last 2 messages
+                # Calculate how many messages to remove (remove at least 1, but keep last 2)
+                messages_to_keep = max(2, len(params["messages"]) - 1)
+                params["messages"] = params["messages"][-messages_to_keep:]
+                
+                logger.info(
+                    f"Reduced messages to {len(params['messages'])} (kept last {messages_to_keep} messages)"
+                )
+                
+                retry_count += 1
+        
+        # If all retries failed and response is still None, raise the last exception
+        if response is None and last_exception is not None:
+            raise last_exception
 
         if stream:
             return self._handle_generate_stream_response(
@@ -368,6 +405,7 @@ class AdbpgLargeLanguageModel(LargeLanguageModel):
         :return: List of message dicts with role and content
         """
         api_messages = []
+        logger.info(f"Converting prompt messages to API messages: {prompt_messages}")
 
         for message in prompt_messages:
             if isinstance(message, SystemPromptMessage):

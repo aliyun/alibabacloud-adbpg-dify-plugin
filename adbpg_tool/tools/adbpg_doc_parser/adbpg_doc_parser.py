@@ -194,3 +194,4 @@ class AdbpgDocParser(Tool):
 
             # Return result as list[str]
             yield self.create_variable_message("result", chunks)
+            yield self.create_text_message("\n".join(chunks))
